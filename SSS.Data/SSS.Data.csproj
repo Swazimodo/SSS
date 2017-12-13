@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>SSS.Data.Sam.Nesbitt</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Sam_Nesbitt</Authors>
+    <Description>Includes helpful stored proceedure management as well as data binding features.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <PackageTags>Stored Proceedure Data Binding SQL</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SSS.Utilities\SSS.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

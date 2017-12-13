@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>SSS.Web.Sam.Nesbitt</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Sam_Nesbitt</Authors>
+    <Description>Accelerator for ASP.NET Core (.NET Framework) projects</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <PackageTags>Includes helpful MiddleWare, Security, Serices, and User management components.</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>SSSWeb.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="MiddleWare\" />
+    <Folder Include="Security\" />
+    <Folder Include="Services\" />
+    <Folder Include="Users\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
+  </ItemGroup>
+
+</Project>
