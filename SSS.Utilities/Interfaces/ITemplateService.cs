@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace SSS.Interfaces
+namespace SSS.Utilities.Interfaces
 {
     /// <summary>
-    /// Renders email content based on razor templates
+    /// Renders html content based on razor templates
     /// </summary>
     public interface ITemplateService
     {

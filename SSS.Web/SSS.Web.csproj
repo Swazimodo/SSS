@@ -16,14 +16,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="MiddleWare\" />
-    <Folder Include="Security\" />
-    <Folder Include="Services\" />
-    <Folder Include="Users\" />
+    <Folder Include="Session\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AntiXSS" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SSS.Utilities\SSS.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

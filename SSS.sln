@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Web", "SSS.Web\SSS.Web.csproj", "{8752B1EF-1EF3-4C3E-8F7D-F00FEF33EAED}"
 EndProject
@@ -9,11 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Web.Users.AD", "SSS.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Data", "SSS.Data\SSS.Data.csproj", "{2FFA820A-8FC0-4B8B-A072-639F4A9F9639}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Web.Security", "SSS.Web.Security\SSS.Web.Security.csproj", "{B5E5780B-8303-44CA-BCE8-07A58C1245B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Utilities", "SSS.Utilities\SSS.Utilities.csproj", "{B3C38225-2BC4-424C-BAC3-A993D45D8FF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSS.Utilities", "SSS.Utilities\SSS.Utilities.csproj", "{B3C38225-2BC4-424C-BAC3-A993D45D8FF7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSS.Swagger", "SSS.Swagger\SSS.Swagger.csproj", "{55534DA1-FC1E-4F83-B9AF-DA2AB27CAA1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Swagger", "SSS.Swagger\SSS.Swagger.csproj", "{55534DA1-FC1E-4F83-B9AF-DA2AB27CAA1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,15 +26,10 @@ Global
 		{659609A1-CF10-443C-8759-BB797E4BBA89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{659609A1-CF10-443C-8759-BB797E4BBA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{659609A1-CF10-443C-8759-BB797E4BBA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{659609A1-CF10-443C-8759-BB797E4BBA89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2FFA820A-8FC0-4B8B-A072-639F4A9F9639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2FFA820A-8FC0-4B8B-A072-639F4A9F9639}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FFA820A-8FC0-4B8B-A072-639F4A9F9639}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FFA820A-8FC0-4B8B-A072-639F4A9F9639}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5E5780B-8303-44CA-BCE8-07A58C1245B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5E5780B-8303-44CA-BCE8-07A58C1245B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5E5780B-8303-44CA-BCE8-07A58C1245B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5E5780B-8303-44CA-BCE8-07A58C1245B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3C38225-2BC4-424C-BAC3-A993D45D8FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3C38225-2BC4-424C-BAC3-A993D45D8FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3C38225-2BC4-424C-BAC3-A993D45D8FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using WebHelper.Models;
 
-namespace SSS.Interfaces
+namespace SSS.Utilities.Interfaces
 {
     public interface IApplicationRoles
     {

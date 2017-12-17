@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSS.Interfaces
+namespace SSS.Utilities.Interfaces
 {
     public interface ISecuredItem
     {

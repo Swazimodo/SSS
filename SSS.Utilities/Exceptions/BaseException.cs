@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace SSS.Exceptions
+namespace SSS.Utilities.Exceptions
 {
     public class BaseException : System.ApplicationException
     {

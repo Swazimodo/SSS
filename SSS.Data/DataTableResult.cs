@@ -1,10 +1,8 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 
 namespace SSS.Data
 {
-    [System.ComponentModel.DesignerCategory("Code")]
-    public class DataSetResult : DataSet
+    public class DataTableResult : DataTable
     {
         public int Result { get; set; }
     }

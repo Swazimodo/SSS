@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSS.Exceptions
+namespace SSS.Utilities.Exceptions
 {
     public class ConfigurationException : BaseException
     {
