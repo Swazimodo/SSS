@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SSS.Web.Config
+﻿namespace SSS.Web.Configuration
 {
     /// <summary>
-    /// Configuration for the web server setting
+    /// Configuration for the web server setting inherit if you want to add new config values (ex. AppDB)
     /// </summary>
     public class WebSettingsBase
     {
@@ -49,5 +45,18 @@ namespace SSS.Web.Config
         /// null value == unlimited
         /// </summary>
         public int? MaxSessionErrors { get; set; }
+
+        public WebSettingsBase()
+        {
+            //set default values
+            AppVersion = "0.0.1";
+            EnvironmentName = "Development";
+            ShowErrors = true;
+            LogDBMessages = true;
+            EnableCSRF = true;
+            IdleTimeout = 60; //one hour
+            DateFormat = "yyyy-MM-dd";
+            MaxSessionErrors = null; //null == unlimited
+        }
     }
 }

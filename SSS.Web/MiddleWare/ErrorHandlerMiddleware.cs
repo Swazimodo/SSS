@@ -8,12 +8,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using SSS.Utilities.Exceptions;
+using SSS.Web.Configuration;
+using SSS.Web.Extensions;
+using SSS.Web.Models;
 
 namespace SSS.Web.MiddleWare
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ErrorHandlerMiddleware
     {
+        const string ERROR_COUNT_KEY = "ErrorHandlerMiddleware_ErrorCount";
+
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
         private readonly IHostingEnvironment _environment;
@@ -80,7 +85,7 @@ namespace SSS.Web.MiddleWare
                         error = new APIError(exception);
                     else
                         error = new APIError();
-                    error.Action = ErrorHelper.GetAction(exception);
+                    error.Action = exception.GetAction();
 
                     //log error details
                     logger.LogError(eventID, exception, error.ReferenceNum.ToString() + " - " + exception.Message);
@@ -110,8 +115,8 @@ namespace SSS.Web.MiddleWare
                 }
 
                 //track number of errors in this session
-                int errorCount = httpContext.Session.GetInt32(ErrorHelper.ERROR_COUNT_KEY).GetValueOrDefault();
-                httpContext.Session.SetInt32(ErrorHelper.ERROR_COUNT_KEY, ++errorCount);
+                int errorCount = httpContext.Session.GetInt32(ERROR_COUNT_KEY).GetValueOrDefault();
+                httpContext.Session.SetInt32(ERROR_COUNT_KEY, ++errorCount);
                 options.LogErrorCallback?.Invoke(httpContext, options.WebSettings, logger);
 
                 //if the max number is reached block user

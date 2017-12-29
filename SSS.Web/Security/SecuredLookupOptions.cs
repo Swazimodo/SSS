@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 using SSS.Utilities.Interfaces;
 using SSS.Utilities.Exceptions;
+using SSS.Web.Extensions;
 
 namespace SSS.Web.Security
 {
@@ -161,24 +162,59 @@ namespace SSS.Web.Security
             return result.ToString();
         }
 
+        ///// <summary>
+        ///// Will sanitize the ID values of the input object and save the results into and ouput object
+        ///// </summary>
+        ///// <typeparam name="TInput">Object with a system ID to sanitize</typeparam>
+        ///// <typeparam name="TOutput">Object to hold the secured key</typeparam>
+        ///// <param name="securableObj">Object containing a list of securable items</param>
+        ///// <param name="context">Session to save the mapping into</param>
+        ///// <param name="securedObj">Object to contain a list of secured items</param>
+        ///// <param name="paramName">Name of querystring parameter that this will come back from the client as</param>
+        ///// <param name="isOneTime">Should this item be reomved from session after it's first use</param>
+        ///// <returns>The mapping object that was saved into the session</returns>
+        //public static SecuredLookupOptions<int> Secure<TInput, TOutput>(HttpContext context, List<TInput> securableList, List<TOutput> securedList, string paramName, bool isOneTime)
+        //    where TInput : ISecurableItem<int>
+        //    where TOutput : ISecuredItem, new()
+        //{
+        //    SecuredLookupOptions<int> sessionValues = CreateQueryStringParameter<int>(isOneTime);
+
+        //    foreach (ISecurableItem<int> item in securableList)
+        //    {
+        //        //provides a random key to the actual value
+        //        string securedKey = sessionValues.AddQueryStringOption(item.Id);
+
+        //        //add to public facing list
+        //        TOutput securedItem = new TOutput();
+        //        securedItem.Load(item, securedKey);
+        //        securedList.Add(securedItem);
+        //    }
+
+        //    //save values into session
+        //    SaveQueryStringOptionsList(context, paramName, sessionValues);
+
+        //    return sessionValues;
+        //}
+
         /// <summary>
         /// Will sanitize the ID values of the input object and save the results into and ouput object
         /// </summary>
-        /// <typeparam name="TInput">Object with a system ID to sanitize</typeparam>
+        /// <typeparam name="TInput">Type of object with a system ID to sanitize</typeparam>
         /// <typeparam name="TOutput">Object to hold the secured key</typeparam>
+        /// <typeparam name="TInputInner">Type of system ID to sanitize</typeparam>
         /// <param name="securableObj">Object containing a list of securable items</param>
         /// <param name="context">Session to save the mapping into</param>
         /// <param name="securedObj">Object to contain a list of secured items</param>
         /// <param name="paramName">Name of querystring parameter that this will come back from the client as</param>
         /// <param name="isOneTime">Should this item be reomved from session after it's first use</param>
         /// <returns>The mapping object that was saved into the session</returns>
-        public static SecuredLookupOptions<int> Secure<TInput, TOutput>(HttpContext context, List<TInput> securableList, List<TOutput> securedList, string paramName, bool isOneTime)
-            where TInput : ISecurableItem
+        public static SecuredLookupOptions<TInputInner> Secure<TInput, TOutput, TInputInner>(HttpContext context, List<TInput> securableList, List<TOutput> securedList, string paramName, bool isOneTime)
+            where TInput : ISecurableItem<TInputInner>
             where TOutput : ISecuredItem, new()
         {
-            SecuredLookupOptions<int> sessionValues = CreateQueryStringParameter<int>(isOneTime);
+            SecuredLookupOptions<TInputInner> sessionValues = CreateQueryStringParameter<TInputInner>(isOneTime);
 
-            foreach (ISecurableItem item in securableList)
+            foreach (ISecurableItem<TInputInner> item in securableList)
             {
                 //provides a random key to the actual value
                 string securedKey = sessionValues.AddQueryStringOption(item.Id);

@@ -15,6 +15,6 @@ namespace SSS.Utilities.Interfaces
         /// </summary>
         /// <param name="originalItem">The original item that was secured</param>
         /// <param name="key">Random key generated for the client to reference</param>
-        void Load(ISecurableItem originalItem, string key);
+        void Load<T>(ISecurableItem<T> originalItem, string key);
     }
 }

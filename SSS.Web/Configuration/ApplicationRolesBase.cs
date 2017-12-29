@@ -2,14 +2,15 @@
 using System.Reflection;
 
 using SSS.Utilities.Interfaces;
+using SSS.Web.Security;
 
-namespace SSS.Web.Security
+namespace SSS.Web.Configuration
 {
     /// <summary>
     /// This class should be inherited. Add properties for different application roles that have an enumerable list of AD groups.
     /// This allows for strongly typed role names but still processing them dynamically as a list.
     /// </summary>
-    public abstract class ApplicationRolesBase// : IApplicationRoles
+    public abstract class ApplicationRolesBase
     {
         static List<ApplicationRole> _applicationRoles = null;
 
@@ -32,6 +33,7 @@ namespace SSS.Web.Security
                     IEnumerable<string> groups = property.GetValue(this) as IEnumerable<string>;
 
                     //If no groups are specified use a default group that will never have user accounts
+                    //this is because if no groups are specified the application role will not be created
                     if (groups == null)
                         groups = new string[] { "Domain Controllers" };
 

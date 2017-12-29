@@ -20,8 +20,8 @@ namespace SSS.Utilities.Interfaces
         int CurrentPageNumber { get; set; }
 
         /// <summary>
-        /// Starting row number of the next page
+        /// True if there is a following page of results
         /// </summary>
-        int? NextPageId { get; set; }
+        bool HasNextPage { get; set; }
     }
 }
