@@ -33,7 +33,7 @@ namespace SSS.Web.Models
         /// <summary>
         /// Secured ID of the default item
         /// </summary>
-        public string Default { get; private set; }
+        public MenuOptionsSecuredItem Default { get; private set; }
 
         public MenuOptionsSecured() { }
 
@@ -42,7 +42,7 @@ namespace SSS.Web.Models
         public MenuOptionsSecured(string paramName, bool isOneTime)
         {
             if (string.IsNullOrWhiteSpace(paramName))
-                throw new SSS.Utilities.Exceptions.ApplicationException("Invalid parameter name");
+                throw new ProgramException("Invalid parameter name");
 
             _paramName = paramName;
             _isOneTime = isOneTime;
@@ -54,14 +54,18 @@ namespace SSS.Web.Models
         /// <param name="context">current HttpContext</param>
         /// <param name="optionsList">Options list with system keys to hide</param>
         /// <param name="defaultItem">default option item</param>
-        public void SecureOptionsList<T>(HttpContext context, MenuOptions<T> options, T defaultItemId = null)
+        public void SecureOptionsList<T>(HttpContext context, MenuOptions<T> options)
             where T : class
         {
-            Security.SecuredLookupOptions<T> mapping = Security.SecuredLookupOptions.Secure(context, options.Items, Items, _paramName, _isOneTime);
-            Default = mapping.Options.FirstOrDefault(x => x.Value == defaultItemId).Key;
+            Security.SecuredLookupOptions<T> mapping = 
+                Security.SecuredLookupOptions.Secure<MenuOptionsItem<T>, T, MenuOptionsSecuredItem>
+                (context, options.Items, Items, _paramName, _isOneTime);
 
-            //QueryStringOptions<T> mapping = QueryStringHelper.Secure(context, options.Items, Items, _paramName, _isOneTime);
-            //Default = mapping.Options.FirstOrDefault(x => x.Value == defaultItemId).Key;
+            if(options.Default != null)
+            {
+                int index = options.Items.IndexOf(options.Default);
+                Default = Items[index];
+            }
         }
 
         /// <summary>
@@ -70,13 +74,17 @@ namespace SSS.Web.Models
         /// <param name="context">current HttpContext</param>
         /// <param name="optionsList">Options list with system keys to hide</param>
         /// <param name="defaultItem">default option item</param>
-        public void SecureOptionsList(HttpContext context, MenuOptions options, int? defaultItemId = null)
+        public void SecureOptionsList(HttpContext context, MenuOptions options)
         {
-            Security.SecuredLookupOptions<int> mapping = Security.SecuredLookupOptions.Secure(context, options.Items, Items, _paramName, _isOneTime);
-            Default = mapping.Options.FirstOrDefault(x => x.Value == defaultItemId).Key;
+            Security.SecuredLookupOptions<int> mapping =
+                Security.SecuredLookupOptions.Secure<MenuOptionsItem<int>, int, MenuOptionsSecuredItem>
+                (context, options.Items, Items, _paramName, _isOneTime);
 
-            //QueryStringOptions<T> mapping = QueryStringHelper.Secure(context, options.Items, Items, _paramName, _isOneTime);
-            //Default = mapping.Options.FirstOrDefault(x => x.Value == defaultItemId).Key;
+            if (options.Default != null)
+            {
+                int index = options.Items.IndexOf(options.Default);
+                Default = Items[index];
+            }
         }
     }
 }

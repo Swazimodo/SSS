@@ -208,7 +208,7 @@ namespace SSS.Web.Security
         /// <param name="paramName">Name of querystring parameter that this will come back from the client as</param>
         /// <param name="isOneTime">Should this item be reomved from session after it's first use</param>
         /// <returns>The mapping object that was saved into the session</returns>
-        public static SecuredLookupOptions<TInputInner> Secure<TInput, TOutput, TInputInner>(HttpContext context, List<TInput> securableList, List<TOutput> securedList, string paramName, bool isOneTime)
+        public static SecuredLookupOptions<TInputInner> Secure<TInput, TInputInner, TOutput>(HttpContext context, List<TInput> securableList, List<TOutput> securedList, string paramName, bool isOneTime)
             where TInput : ISecurableItem<TInputInner>
             where TOutput : ISecuredItem, new()
         {
@@ -231,6 +231,7 @@ namespace SSS.Web.Security
             return sessionValues;
         }
     }
+
 
     /// <summary>
     /// Container to hold parameter options in the session
