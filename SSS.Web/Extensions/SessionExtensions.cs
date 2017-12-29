@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 using SSS.Utilities.Exceptions;
-
-using Microsoft.AspNetCore.Http;
-
-using Newtonsoft.Json;
 
 namespace SSS.Web.Extensions
 {
@@ -56,7 +54,7 @@ namespace SSS.Web.Extensions
         }
 
         /// <summary>
-        /// Gets the client IP
+        /// Gets the client's IPv4 Address
         /// </summary>
         /// <param name="context">Current context</param>
         /// <returns>IP address</returns>
