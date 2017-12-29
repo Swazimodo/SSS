@@ -139,7 +139,7 @@ namespace SSS.Data
             //get paging information if records were found
             if (dt.Rows.Count > 0)
             {
-                table.NextPageId = GetNextPageId(dt, pageSize);
+                table.HasNextPage = HasNextPage(dt, pageSize);
 
                 //use integer division to get a whole number
                 table.CurrentPageNumber = ((int)dt.Rows[0][ROW_INDEX_COLUMN]) / pageSize;
@@ -191,23 +191,24 @@ namespace SSS.Data
         }
 
         /// <summary>
-        /// Gets the ID of the last row if it exceeds the page size,
+        /// Checks if there is one extra row past the requested page size,
         /// The extra row is then removed so that the correct page size is returned
         /// </summary>
-        /// <param name="IdColName">column ID must be ordered in the result set</param>
-        /// <returns></returns>
-        static int GetNextPageId(DataTable dt, int pageCount)
+        /// <param name="dt">Table to check</param>
+        /// <param name="pageSize">Number of records requested</param>
+        /// <returns>true if there is another page following this one</returns>
+        static bool HasNextPage(DataTable dt, int pageSize)
         {
-            if (dt != null && dt.Rows.Count > pageCount)
+            if (dt != null && dt.Rows.Count > pageSize)
             {
                 try
                 {
                     //get the id of the row one past the page size
-                    int id = (int)dt.Rows[pageCount][ROW_INDEX_COLUMN];
+                    //int id = (int)dt.Rows[pageCount][ROW_INDEX_COLUMN];
 
                     //delete extra row that is not intended to be displayed on this page
-                    dt.Rows.RemoveAt(pageCount);
-                    return id;
+                    dt.Rows.RemoveAt(pageSize);
+                    return true;
                 }
                 catch (Exception ex)
                 {
@@ -215,9 +216,7 @@ namespace SSS.Data
                 }
             }
             else
-            {
-                return -1;
-            }
+                return false;
         }
     }
 }
