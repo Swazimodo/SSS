@@ -8,5 +8,11 @@ namespace SSS.Web.Configuration
     {
         public bool CaptureStartupErrors { get; set; }
         public string Environment { get; set; }
+        public string WebRoot { get; set; }
+
+        public HostConfiguration()
+        {
+            WebRoot = "wwwroot";
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace SSS.WebTest
                 .UseStartup<Startup>()
                 .UseEnvironment(hostConfig.Environment)
                 .CaptureStartupErrors(hostConfig.CaptureStartupErrors)
+                .UseWebRoot(hostConfig.WebRoot)
                 .Build();
 
             return webHost;
