@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace SSS.WebTest
 {
@@ -26,7 +20,7 @@ namespace SSS.WebTest
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", false)
                 .Build();
-            var hostConfig = builder.GetSection("HostConfiguration").Get<SSS.Web.Configuration.HostConfiguration>();
+            var hostConfig = builder.GetSection("HostConfiguration").Get<Web.Configuration.HostConfiguration>();
 
             IWebHost webHost = WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()

@@ -32,7 +32,7 @@ namespace SSS.Web.Configuration
             else
             {
                 for (int i = 0; i < Methods.Count; i++)
-                    if (string.Compare(Methods[i], context.Request.Method, true) == 0)
+                    if (string.Equals(Methods[i], context.Request.Method, StringComparison.OrdinalIgnoreCase))
                     {
                         match = true;
                         break;

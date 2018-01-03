@@ -90,7 +90,7 @@ namespace SSS.Web.Configuration
         /// </summary>
         public bool IsDevelopment()
         {
-            return string.Compare(EnvironmentName, "Development", true) == 0;
+            return string.Equals(EnvironmentName, "Development", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace SSS.Web.Configuration
         /// </summary>
         public bool IsProduction()
         {
-            return string.Compare(EnvironmentName, "Production", true) == 0;
+            return string.Equals(EnvironmentName, "Production", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

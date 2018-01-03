@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+
+using SSS.Web.Configuration;
 
 namespace SSS.Web.MiddleWare
 {
@@ -14,13 +17,13 @@ namespace SSS.Web.MiddleWare
         public const string CSRF_COOKIE_KEY = "XSRF-TOKEN";
 
         private readonly RequestDelegate _next;
-        private readonly Configuration.WebSettingsBase _settings;
+        private readonly WebSettingsBase _settings;
         private readonly IAntiforgery _antiforgery;
 
-        public AntiforgeryHandlerMiddleware(RequestDelegate next, Configuration.WebSettingsBase settings, IAntiforgery antiforgery)
+        public AntiforgeryHandlerMiddleware(RequestDelegate next, IOptions<WebSettingsBase> settings, IAntiforgery antiforgery)
         {
             _next = next;
-            _settings = settings;
+            _settings = settings.Value;
             _antiforgery = antiforgery;
         }
 
@@ -40,13 +43,13 @@ namespace SSS.Web.MiddleWare
                     Task checkValues = _antiforgery.ValidateRequestAsync(httpContext);
                     Task<bool> validate = _antiforgery.IsRequestValidAsync(httpContext);
                     if (!(await validate))
-                        throw new Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException("Request is not valid");
+                        throw new AntiforgeryValidationException("Request is not valid");
                     await checkValues;
                 }
                 catch (Exception ex)
                 {
                     // wrap in the SSS exception for easier handling later
-                    throw new SSS.Utilities.Exceptions.AntiforgeryCheckException("Failed to validate CSRF token", ex);
+                    throw new Utilities.Exceptions.AntiforgeryCheckException("Failed to validate CSRF token", ex);
                 }
             }
 

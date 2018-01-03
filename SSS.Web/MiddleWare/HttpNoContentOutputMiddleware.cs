@@ -18,7 +18,7 @@ namespace SSS.Web.MiddleWare
             await _next(httpContext);
 
             //check if a get request had no content
-            if (httpContext.Request.Method == "GET" && httpContext.Response.StatusCode == 204)
+            if (string.Equals(httpContext.Request.Method, "GET", System.StringComparison.OrdinalIgnoreCase) && httpContext.Response.StatusCode == 204)
             {
                 //there is no content on a get request so return a 404
                 httpContext.Response.StatusCode = 404;

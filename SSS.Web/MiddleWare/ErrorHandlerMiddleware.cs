@@ -75,7 +75,7 @@ namespace SSS.Web.MiddleWare
                 httpContext.Response.StatusCode = httpStatusCode;
 
                 //check if this is an API error or a Page error
-                if (httpContext.Request.Path.Value.ToLower().StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
+                if (httpContext.Request.Path.Value.StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
                 {
                     //partial views will be expecting HTML but we are returning a JSON error message
                     httpContext.Response.ContentType = "application/json; charset=utf-8";
