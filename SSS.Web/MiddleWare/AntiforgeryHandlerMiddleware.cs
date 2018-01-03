@@ -14,27 +14,27 @@ namespace SSS.Web.MiddleWare
         public const string CSRF_COOKIE_KEY = "XSRF-TOKEN";
 
         private readonly RequestDelegate _next;
+        private readonly Configuration.WebSettingsBase _settings;
         private readonly IAntiforgery _antiforgery;
 
-        public AntiforgeryHandlerMiddleware(RequestDelegate next, IAntiforgery antiforgery)
+        public AntiforgeryHandlerMiddleware(RequestDelegate next, Configuration.WebSettingsBase settings, IAntiforgery antiforgery)
         {
             _next = next;
+            _settings = settings;
             _antiforgery = antiforgery;
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
-            //only do CSRF checks on the API calls
-            if (httpContext.Request.Path.Value.ToLower().StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
+            if(_settings.CSRFSettings.Enabled == false)
             {
-                //TODO: make this a configuratable list
-                //check exclusions list to bypass CSRF check
-                if (httpContext.Request.Path.Value.ToLower().StartsWith("/api/v1/Reports/Signature/", StringComparison.OrdinalIgnoreCase))
-                {
-                    await _next(httpContext);
-                    return;
-                }
+                await _next(httpContext);
+                return;
+            }
 
+            //only do CSRF checks on paths specified in the configuration
+            if (_settings.CSRFSettings.isCSRFCheckNeeded(httpContext))
+            {
                 try
                 {
                     Task checkValues = _antiforgery.ValidateRequestAsync(httpContext);
@@ -45,7 +45,8 @@ namespace SSS.Web.MiddleWare
                 }
                 catch (Exception ex)
                 {
-                    throw new SSS.Utilities.Exceptions.AntiforgeryValidationException("Failed to validate CSRF token", ex);
+                    // wrap in the SSS exception for easier handling later
+                    throw new SSS.Utilities.Exceptions.AntiforgeryCheckException("Failed to validate CSRF token", ex);
                 }
             }
 

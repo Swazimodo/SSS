@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Utilities", "SSS.Utilit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.Swagger", "SSS.Swagger\SSS.Swagger.csproj", "{55534DA1-FC1E-4F83-B9AF-DA2AB27CAA1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSS.WebTest", "SSS.WebTest\SSS.WebTest.csproj", "{B47758D1-7B8B-46B3-B540-DA4A8740BBA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSS.WebTest", "SSS.WebTest\SSS.WebTest.csproj", "{B47758D1-7B8B-46B3-B540-DA4A8740BBA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,7 +26,6 @@ Global
 		{8752B1EF-1EF3-4C3E-8F7D-F00FEF33EAED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8752B1EF-1EF3-4C3E-8F7D-F00FEF33EAED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{659609A1-CF10-443C-8759-BB797E4BBA89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{659609A1-CF10-443C-8759-BB797E4BBA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{659609A1-CF10-443C-8759-BB797E4BBA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FFA820A-8FC0-4B8B-A072-639F4A9F9639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2FFA820A-8FC0-4B8B-A072-639F4A9F9639}.Debug|Any CPU.Build.0 = Debug|Any CPU

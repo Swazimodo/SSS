@@ -6,7 +6,7 @@
     <members>
         <member name="T:SSS.Web.Configuration.ApplicationRolesBase">
             <summary>
-            This class should be inherited. Add properties for different application roles that have an enumerable list of AD groups.
+            This class should be inherited. Add properties for different application roles that have an enumerable list of user groups.
             This allows for strongly typed role names but still processing them dynamically as a list.
             </summary>
         </member>
@@ -15,6 +15,46 @@
             Use reflection to find all application roles from the properties
             </summary>
             <returns>list of all application roles</returns>
+        </member>
+        <member name="P:SSS.Web.Configuration.CSRFPath.Methods">
+            <summary>
+            Specify HttpMethods if you want to filter by them
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.CSRFPath.StartingRequestPath">
+            <summary>
+            The relative site page to check 
+            </summary>
+            <example>/api/</example>
+        </member>
+        <member name="M:SSS.Web.Configuration.CSRFPath.Validate(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            checks if the current request matches the method and path
+            </summary>
+            <param name="context">Current context to evaluate</param>
+            <returns>true if current request matches this rule</returns>
+        </member>
+        <member name="P:SSS.Web.Configuration.GlobalCSRFSettings.Enabled">
+            <summary>
+            True if CSRF checks should be enabled for the site
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.GlobalCSRFSettings.IncludedEndpoints">
+            <summary>
+            list of site paths that should be covered by the CSRF check
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.GlobalCSRFSettings.ExcludedEndpoints">
+            <summary>
+            list of site paths that need to be excluded
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.GlobalCSRFSettings.isCSRFCheckNeeded(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Checks if the current request needs to have the CSRF token validated
+            </summary>
+            <param name="context">Current context to evaluate</param>
+            <returns>true if the current request needs to be validated</returns>
         </member>
         <member name="T:SSS.Web.Configuration.WebSettingsBase">
             <summary>
@@ -41,14 +81,19 @@
             Whether DB messages are logged
             </summary>
         </member>
-        <member name="P:SSS.Web.Configuration.WebSettingsBase.EnableCSRF">
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.CSRFSettings">
             <summary>
-            This needs to be enabled in PROD for security but will break swagger UI
+            Contains all the configuration to enable site CSRF checking
             </summary>
         </member>
         <member name="P:SSS.Web.Configuration.WebSettingsBase.IdleTimeout">
             <summary>
             Session timeout value in minutes
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.SessionExpiration">
+            <summary>
+            Session cookie expriation timespan (dd.hh:mm:ss)
             </summary>
         </member>
         <member name="P:SSS.Web.Configuration.WebSettingsBase.DateFormat">
@@ -61,6 +106,12 @@
             Maximum number of errors allowed in one session before user is locked out
             null value == unlimited
             </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.WebSettingsBase.GetSessionExpirationTimeSpan">
+            <summary>
+            Gets a timespan from the SessionExpiration string
+            </summary>
+            <returns>Default to 24 minutes if SessionExpiration null or invalid</returns>
         </member>
         <member name="M:SSS.Web.Extensions.ConfigurationExtensions.IsTrue(System.String)">
             <summary>

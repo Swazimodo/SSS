@@ -76,12 +76,28 @@ namespace SSS.Web.Configuration
         /// Gets a timespan from the SessionExpiration string
         /// </summary>
         /// <returns>Default to 24 minutes if SessionExpiration null or invalid</returns>
-        public TimeSpan GetSessionExpirationTimeSpan()
+        public TimeSpan? GetSessionExpirationTimeSpan()
         {
             TimeSpan value;
             if (TimeSpan.TryParse(SessionExpiration, out value))
                 return value;
-            return TimeSpan.FromMinutes(24);
+            return null;
+        }
+
+        /// <summary>
+        /// Check if this is currently in the development environment
+        /// </summary>
+        public bool IsDevelopment()
+        {
+            return string.Compare(EnvironmentName, "Development", true) == 0;
+        }
+
+        /// <summary>
+        /// Check if this is currently in the production environment
+        /// </summary>
+        public bool IsProduction()
+        {
+            return string.Compare(EnvironmentName, "Production", true) == 0;
         }
     }
 }

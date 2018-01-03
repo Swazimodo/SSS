@@ -19,7 +19,7 @@ namespace SSS.Web.Extensions
             string action = ErrorAction.Support.ToString();
 
             //check if error has an easy solution
-            if (exception is AntiforgeryValidationException) action = ErrorAction.Reload.ToString();
+            if (exception is AntiforgeryCheckException) action = ErrorAction.Reload.ToString();
             else if (exception is SessionException) action = ErrorAction.Reload.ToString();
 
             return action;
