@@ -104,7 +104,7 @@ namespace SSS.WebTest
             loggerFactory.AddFile(Configuration.GetSection("Logging")["PathFormat"]);
 
             //use dev page if we are returning detailed errors
-            if (settings.ShowErrors)
+            if (settings.ErrorHandlerSettings.ShowErrors)
                 app.UseDeveloperExceptionPage();
 
             if (settings.IsDevelopment())

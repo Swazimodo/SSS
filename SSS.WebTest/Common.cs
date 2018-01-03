@@ -11,13 +11,7 @@ namespace SSS.WebTest
 {
     public class Common
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="webSettings"></param>
-        /// <param name="logger"></param>
-        public static void LogErrorCallback(HttpContext context, WebSettingsBase webSettings, ILogger logger)
+        public static void LogErrorCallback(Exception exception, HttpContext context, WebSettingsBase webSettings, ILogger logger)
         {
             //ApplicationSettings settings = webSettings as ApplicationSettings;
             //if (settings == null)

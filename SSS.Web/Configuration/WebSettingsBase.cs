@@ -18,9 +18,9 @@ namespace SSS.Web.Configuration
         public string EnvironmentName { get; set; }
 
         /// <summary>
-        /// Whether errors are passed back through the API
+        /// 
         /// </summary>
-        public bool ShowErrors { get; set; }
+        public GlobalErrorHandlerSettings ErrorHandlerSettings { get; set; }
 
         /// <summary>
         /// Whether DB messages are logged
@@ -63,7 +63,8 @@ namespace SSS.Web.Configuration
             //set default values
             AppVersion = "0.0.1";
             EnvironmentName = "Development";
-            ShowErrors = true;
+            ErrorHandlerSettings = new GlobalErrorHandlerSettings() { ShowErrors = true };
+            //ShowErrors = true;
             LogDBMessages = true;
             CSRFSettings = new GlobalCSRFSettings() { Enabled = false };
             //EnableCSRF = true;

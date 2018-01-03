@@ -81,7 +81,7 @@ namespace SSS.Web.MiddleWare
                     httpContext.Response.ContentType = "application/json; charset=utf-8";
 
                     APIError error;
-                    if (options.WebSettings.ShowErrors)
+                    if (options.WebSettings.ErrorHandlerSettings.ShowErrors)
                         error = new APIError(exception);
                     else
                         error = new APIError();
@@ -107,7 +107,7 @@ namespace SSS.Web.MiddleWare
                     logger.LogError(eventID, exception, ReferenceNum.ToString() + " - " + exception.Message);
 
                     //handle Page error
-                    if (options.WebSettings.ShowErrors)
+                    if (options.WebSettings.ErrorHandlerSettings.ShowErrors)
                         throwDevError = true;
                     else
                         //if this was a page load redirect to the error page
@@ -117,7 +117,7 @@ namespace SSS.Web.MiddleWare
                 //track number of errors in this session
                 int errorCount = httpContext.Session.GetInt32(ERROR_COUNT_KEY).GetValueOrDefault();
                 httpContext.Session.SetInt32(ERROR_COUNT_KEY, ++errorCount);
-                options.LogErrorCallback?.Invoke(httpContext, options.WebSettings, logger);
+                options.LogErrorCallback?.Invoke(exception, httpContext, options.WebSettings, logger);
 
                 //if the max number is reached block user
                 if (options.WebSettings.MaxSessionErrors != null && options.WebSettings.MaxSessionErrors == errorCount)
@@ -159,10 +159,19 @@ namespace SSS.Web.MiddleWare
 
     public class ErrorHandlerOptions
     {
-        public delegate void ErrorHandlerCallback(HttpContext context, WebSettingsBase settings, ILogger logger);
+        public delegate void ErrorHandlerCallback(Exception exception, HttpContext context, WebSettingsBase settings, ILogger logger);
+        public delegate void MaxErrorHandlerCallback(HttpContext context, WebSettingsBase settings, ILogger logger);
 
+        /// <summary>
+        /// Here you can add custom logging or error handling
+        /// </summary>
         public ErrorHandlerCallback LogErrorCallback { get; set; }
-        public ErrorHandlerCallback MaxErrorCountCallback { get; set; }
+
+        /// <summary>
+        /// This is a callback when a user passes a threshold value set to see if one user is having too many errors.
+        /// This could indicate an application availablity issue or an intentional attack.
+        /// </summary>
+        public MaxErrorHandlerCallback MaxErrorCountCallback { get; set; }
 
         /// <summary>
         /// Site settings, cannot be null
