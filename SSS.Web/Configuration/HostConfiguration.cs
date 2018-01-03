@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SSS.Web.Configuration
+{
+    public class HostConfiguration
+    {
+        public bool CaptureStartupErrors { get; set; }
+        public string Environment { get; set; }
+    }
+}

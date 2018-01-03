@@ -1,0 +1,510 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SSS.Web</name>
+    </assembly>
+    <members>
+        <member name="T:SSS.Web.Configuration.ApplicationRolesBase">
+            <summary>
+            This class should be inherited. Add properties for different application roles that have an enumerable list of AD groups.
+            This allows for strongly typed role names but still processing them dynamically as a list.
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.ApplicationRolesBase.GetApplicationRoles">
+            <summary>
+            Use reflection to find all application roles from the properties
+            </summary>
+            <returns>list of all application roles</returns>
+        </member>
+        <member name="T:SSS.Web.Configuration.WebSettingsBase">
+            <summary>
+            Configuration for the web server setting inherit if you want to add new config values (ex. AppDB)
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.AppVersion">
+            <summary>
+            Specifies the release version
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.EnvironmentName">
+            <summary>
+            Title of HS Environment
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.ShowErrors">
+            <summary>
+            Whether errors are passed back through the API
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.LogDBMessages">
+            <summary>
+            Whether DB messages are logged
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.EnableCSRF">
+            <summary>
+            This needs to be enabled in PROD for security but will break swagger UI
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.IdleTimeout">
+            <summary>
+            Session timeout value in minutes
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.DateFormat">
+            <summary>
+            Date format to be used throughout site
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.MaxSessionErrors">
+            <summary>
+            Maximum number of errors allowed in one session before user is locked out
+            null value == unlimited
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Extensions.ConfigurationExtensions.IsTrue(System.String)">
+            <summary>
+            checks if string is "true"
+            </summary>
+            <param name="value">string to try and parse</param>
+            <returns>boolean value</returns>
+            <exception cref="T:System.FormatException">If invalid string</exception>
+        </member>
+        <member name="M:SSS.Web.Extensions.ExceptionExtensions.GetAction(System.Exception)">
+            <summary>
+            Get the requried client action for each type of error
+            </summary>
+            <param name="exception">Exception thrown</param>
+            <returns>client action</returns>
+        </member>
+        <member name="M:SSS.Web.Extensions.ExceptionExtensions.GetStatusCode(System.Exception)">
+            <summary>
+            looks for our custom exception types and maps them to HTTPCodes
+            </summary>
+            <returns>HTTPCode</returns>
+        </member>
+        <member name="M:SSS.Web.Extensions.SessionExtensions.GetObject``1(Microsoft.AspNetCore.Http.ISession,System.String)">
+            <summary>
+            Deserialize object out of the session
+            </summary>
+            <typeparam name="T">type of object</typeparam>
+            <param name="session">current session</param>
+            <param name="key">session key</param>
+            <returns>object out of session</returns>
+        </member>
+        <member name="M:SSS.Web.Extensions.SessionExtensions.SetObject``1(Microsoft.AspNetCore.Http.ISession,System.String,``0)">
+            <summary>
+            Serialize object and save it into the session
+            </summary>
+            <typeparam name="T">type to serialize</typeparam>
+            <param name="session">current session</param>
+            <param name="key">session key</param>
+            <param name="obj">target object to save a copy of into the session</param>
+        </member>
+        <member name="M:SSS.Web.Extensions.SessionExtensions.KillSession(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            removes all session values
+            overwrites asp session cookie
+            overwrites CSRF Cookie
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Extensions.SessionExtensions.GetClientIPAddress(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Gets the client's IPv4 Address
+            </summary>
+            <param name="context">Current context</param>
+            <returns>IP address</returns>
+        </member>
+        <member name="T:SSS.Web.MiddleWare.AntiforgeryHandlerMiddlewareExtensions">
+            <summary>
+            Extension method used to add the error handling middleware to the HTTP request pipeline
+            </summary>
+        </member>
+        <member name="M:SSS.Web.MiddleWare.AntiforgeryHandlerMiddlewareExtensions.UseAntiforgeryHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Checks config to see if it should be enabled
+            </summary>
+        </member>
+        <member name="M:SSS.Web.MiddleWare.ErrorHandlerMiddleware.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception,SSS.Web.MiddleWare.ErrorHandlerOptions,Microsoft.Extensions.Logging.ILogger,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            API exceptions will return a JSON error message
+            Page exceptions will redirect to an error page based on the http status code in not Dev environments
+            </summary>
+        </member>
+        <member name="T:SSS.Web.MiddleWare.ErrorHandlerMiddlewareExtensions">
+            <summary>
+            Extension method used to add the error handling middleware to the HTTP request pipeline
+            </summary>
+        </member>
+        <member name="M:SSS.Web.MiddleWare.ErrorHandlerMiddlewareExtensions.UseErrorHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder,SSS.Web.MiddleWare.ErrorHandlerOptions)">
+            <summary>
+            Insert a global error handler into the pipeline
+            </summary>
+            <param name="options">options.WebSettings cannot be null</param>
+            <returns></returns>
+        </member>
+        <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.WebSettings">
+            <summary>
+            Site settings, cannot be null
+            </summary>
+        </member>
+        <member name="T:SSS.Web.MiddleWare.HttpNoContentOutputMiddlewareExtensions">
+            <summary>
+            Extension method used to add the error handling middleware to the HTTP request pipeline
+            </summary>
+        </member>
+        <member name="M:SSS.Web.MiddleWare.HttpNoContentOutputMiddlewareExtensions.UseHttpNoContentOutputMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            sets status code to 404 if a get request returns with no content
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Models.APIError">
+            <summary>
+            Class for returning a json exception through a rest api
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.APIError.Message">
+            <summary>
+            User error message
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.APIError.Type">
+            <summary>
+            Type of exception thrown
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.APIError.InnerException">
+            <summary>
+            Exception details
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.APIError.HasError">
+            <summary>
+            True if this is an error
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.APIError.Action">
+            <summary>
+            a safe action the user can follow (ex. refresh the browser)
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.APIError.ReferenceNum">
+            <summary>
+            GUID that can be used to cross-reference an error to the application log
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Models.APIError.#ctor">
+            <summary>
+            Generic error constructor
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Models.APIError.#ctor(System.Exception)">
+            <summary>
+            Detailed error constructor for non prod
+            </summary>
+            <param name="ex">Exception that was thrown</param>
+        </member>
+        <member name="M:SSS.Web.Models.APIError.ToString">
+            <summary>
+            Converts this object into JSON
+            </summary>
+            <returns>JSON string</returns>
+        </member>
+        <member name="T:SSS.Web.Models.APIError.InnerAPIError">
+            <summary>
+            Will give full exception details in non prod environments
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Models.DbFile">
+            <summary>
+            Used when searving up a file from a database blob
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.DbFile.Extension">
+            <summary>
+            Gets the extension from FileName property
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Models.DbFile.#ctor(Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Creates a file from a DB blob
+            </summary>
+            <param name="logger">Adds the ability to track client downloads</param>
+        </member>
+        <member name="M:SSS.Web.Models.DbFile.ToClient">
+            <summary>
+            Sends file to the client
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Models.MenuOptions">
+            <summary>
+            list of menu options to populate a drop down list with
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.MenuOptions.Default">
+            <summary>
+            ID of the default item
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.MenuOptions.AllowNull">
+            <summary>
+            Wheter or not to allow a null value
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Models.MenuOptions`1">
+            <summary>
+            list of menu options to populate a drop down list with
+            </summary>
+            <typeparam name="T">type of key for the value</typeparam>
+        </member>
+        <member name="P:SSS.Web.Models.MenuOptions`1.Default">
+            <summary>
+            ID of the default item
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.MenuOptions`1.AllowNull">
+            <summary>
+            Wheter or not to allow a null value
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Models.MenuOptions`1.SetDefaultByIndex(System.Int32)">
+            <summary>
+            ets the current default value by index value of the current options
+            </summary>
+            <param name="index">index value to select</param>
+        </member>
+        <member name="M:SSS.Web.Models.MenuOptions`1.SetDefaultByKey``1(``0)">
+            <summary>
+            Sets the current default value by key value
+            </summary>
+            <param name="key">Key to search for</param>
+        </member>
+        <member name="M:SSS.Web.Models.MenuOptions`1.SetDefaultByKey``1(System.Nullable{``0})">
+            <summary>
+            Sets the current default value by key value
+            </summary>
+            <param name="key">Key to search for</param>
+        </member>
+        <member name="T:SSS.Web.Models.MenuOptionsSecured">
+            <summary>
+            Used for sensitive values where you do not want to expose the keys to an end user
+            This also makes it really hard for them to fuzz your parameter values
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Models.MenuOptionsSecured.Default">
+            <summary>
+            Secured ID of the default item
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Models.MenuOptionsSecured.#ctor(System.String,System.Boolean)">
+            <param name="paramName">Name of the query string parameter that a value will come back as</param>
+            <param name="isOneTime">If true session values will be disposed after first request for a value</param>
+        </member>
+        <member name="M:SSS.Web.Models.MenuOptionsSecured.SecureOptionsList``1(Microsoft.AspNetCore.Http.HttpContext,SSS.Web.Models.MenuOptions{``0})">
+            <summary>
+            creates a secured options list and saves the values into session. You cannot change the options list after this point.
+            </summary>
+            <param name="context">current HttpContext</param>
+            <param name="optionsList">Options list with system keys to hide</param>
+            <param name="defaultItem">default option item</param>
+        </member>
+        <member name="M:SSS.Web.Models.MenuOptionsSecured.SecureOptionsList(Microsoft.AspNetCore.Http.HttpContext,SSS.Web.Models.MenuOptions)">
+            <summary>
+            creates a secured options list and saves the values into session. You cannot change the options list after this point.
+            </summary>
+            <param name="context">current HttpContext</param>
+            <param name="optionsList">Options list with system keys to hide</param>
+            <param name="defaultItem">default option item</param>
+        </member>
+        <member name="M:SSS.Web.Models.ModelBase.AddError(SSS.Web.Models.ModelBase,System.String,SSS.Web.Configuration.WebSettingsBase,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Adds a system error that will be genericized in PROD
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Models.ModelBase.AddError(SSS.Web.Models.ModelBase,System.Exception,SSS.Web.Configuration.WebSettingsBase,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Adds a system error that will be genericized in PROD
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Models.ModelBase.AddBusinessError(SSS.Web.Models.ModelBase,System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Adds a business error that will be passed back to the client
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Models.PageableResults`1">
+            <summary>
+            Returns a pageable list of values
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SSS.Web.Models.Results`1">
+            <summary>
+            returns a list of values
+            </summary>
+            <typeparam name="T">Type of values to return</typeparam>
+        </member>
+        <member name="T:SSS.Web.Security.ApplicationRole">
+            <summary>
+            An application security role
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Security.ApplicationRole.RoleName">
+            <summary>
+            Name of security role
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Security.ApplicationRole.Groups">
+            <summary>
+            List of groups that can provide this access
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Security.InputSanitizer.SanitizeHTMLMultilineValue(System.String)">
+            <summary>
+            Remove any malicious content from user input and preserves line endings
+            </summary>
+            <param name="value">multiline input</param>
+            <returns>HTML Sanitized input</returns>
+        </member>
+        <member name="M:SSS.Web.Security.InputSanitizer.SanitizeHTMLValue(System.String)">
+            <summary>
+            Removes any malicious content from HTML user input
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SSS.Web.Security.InputSanitizer.ValidateText(System.String,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Allows only [a-zA-Z -]
+            </summary>
+            <param name="value">value to test</param>
+            <returns>true if valid input</returns>
+        </member>
+        <member name="T:SSS.Web.Security.SecuredLookupOptions">
+            <summary>
+            This helper has a collection of methods to protect making direct object references of sensitive information
+            https://www.owasp.org/index.php/Top_10_2010-A4-Insecure_Direct_Object_References
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.CreateQueryStringParameter``1(System.Boolean)">
+            <summary>
+            Creates a new QueryStringOptions object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="isOneTime">If true object will be disposed after first time retrieving a value</param>
+            <returns>Options object that has not yet been saved in the session</returns>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.AddQueryStringOption``1(SSS.Web.Security.SecuredLookupOptions{``0},``0)">
+            <summary>
+            Stores values for later retrieval
+            </summary>
+            <typeparam name="T">type of value</typeparam>
+            <param name="list">object that stores all possible values for this parameter</param>
+            <param name="value">item to save</param>
+            <returns>reference key used to lookup value</returns>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.GetQueryStringValue(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Boolean)">
+            <summary>
+            Gets all possible options out of the session and then lookup a particular value
+            </summary>
+            <param name="context">user context</param>
+            <param name="paramName">query string value name. This needs to be unique for your page</param>
+            <param name="key">reference string used to find value</param>
+            <param name="allowNull">should null key be an error, if not it counts as a lookup for onetime values</param>
+            <returns>saved session int</returns>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.GetQueryStringValue``1(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String,System.Boolean)">
+            <summary>
+            Gets all possible options out of the session and then lookup a particular value
+            </summary>
+            <typeparam name="T">type of value saved</typeparam>
+            <param name="context">user context</param>
+            <param name="paramName">query string value name. This needs to be unique for your page</param>
+            <param name="key">reference string used to find value</param>
+            <param name="allowNull">should null key be an error, if not it counts as a lookup for onetime values</param>
+            <returns>saved session object</returns>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.GetQueryStringOptionsList``1(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            retrieve entire options list from session
+            </summary>
+            <typeparam name="T">type of value</typeparam>
+            <param name="context">user context</param>
+            <param name="paramName">query string value name. This needs to be unique for your page</param>
+            <returns>options list</returns>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.SaveQueryStringOptionsList``1(Microsoft.AspNetCore.Http.HttpContext,System.String,SSS.Web.Security.SecuredLookupOptions{``0})">
+            <summary>
+            Save an options object into the session once all values have been added
+            </summary>
+            <typeparam name="T">type of value</typeparam>
+            <param name="context">user context</param>
+            <param name="paramName">query string value name. This needs to be unique for your page</param>
+            <param name="queryStringOptions">Options object to save into the session</param>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.RemoveQueryStringOptionsList(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            removes a QueryStringOptions from the session
+            </summary>
+            <param name="context">user context</param>
+            <param name="paramName">query string value name. This needs to be unique for your page</param>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.GetUniqueKey(System.Int32)">
+            <summary>
+            Generates a random string of charactors
+            </summary>
+            <param name="maxSize">max output string size</param>
+            <returns>random string</returns>
+        </member>
+        <member name="M:SSS.Web.Security.SecuredLookupOptions.Secure``3(Microsoft.AspNetCore.Http.HttpContext,System.Collections.Generic.List{``0},System.Collections.Generic.List{``2},System.String,System.Boolean)">
+            <summary>
+            Will sanitize the ID values of the input object and save the results into and ouput object
+            </summary>
+            <typeparam name="TInput">Type of object with a system ID to sanitize</typeparam>
+            <typeparam name="TOutput">Object to hold the secured key</typeparam>
+            <typeparam name="TInputInner">Type of system ID to sanitize</typeparam>
+            <param name="securableObj">Object containing a list of securable items</param>
+            <param name="context">Session to save the mapping into</param>
+            <param name="securedObj">Object to contain a list of secured items</param>
+            <param name="paramName">Name of querystring parameter that this will come back from the client as</param>
+            <param name="isOneTime">Should this item be reomved from session after it's first use</param>
+            <returns>The mapping object that was saved into the session</returns>
+        </member>
+        <member name="T:SSS.Web.Security.SecuredLookupOptions`1">
+            <summary>
+            Container to hold parameter options in the session
+            </summary>
+            <typeparam name="T">type of option value</typeparam>
+        </member>
+        <member name="T:SSS.Web.Services.TemplateService">
+            <summary>
+            Renders html content based on razor templates
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Users.User">
+            <summary>
+            Default implementation of IUser
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Users.UserInfo`1">
+            <summary>
+            Detailed user information with custom details
+            </summary>
+            <typeparam name="T">Additional application specific user information</typeparam>
+        </member>
+        <member name="P:SSS.Web.Users.UserInfo`1.Details">
+            <summary>
+            This allows you to extend this object with additional user information
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Users.UserInfo">
+            <summary>
+            Default implementation of IUserInfo
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Users.UserInfo.Roles">
+            <summary>
+            list of only roles user has access to
+            </summary>
+        </member>
+    </members>
+</doc>
