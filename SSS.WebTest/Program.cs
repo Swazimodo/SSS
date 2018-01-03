@@ -18,7 +18,7 @@ namespace SSS.WebTest
         }
 
         /// <summary>
-        /// Added a hosting.json config file here to allow the web host to be configurable
+        /// Added HostConfiguration section for settings that will be used to configure the web host
         /// </summary>
         public static IWebHost BuildWebHost(string[] args)
         {
