@@ -7,7 +7,7 @@ using SSS.Web.Security;
 namespace SSS.Web.Configuration
 {
     /// <summary>
-    /// This class should be inherited. Add properties for different application roles that have an enumerable list of AD groups.
+    /// This class should be inherited. Add properties for different application roles that have an enumerable list of user groups.
     /// This allows for strongly typed role names but still processing them dynamically as a list.
     /// </summary>
     public abstract class ApplicationRolesBase
