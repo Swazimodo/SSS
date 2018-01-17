@@ -13,8 +13,9 @@ namespace SSS.Web.MiddleWare
     public class AntiforgeryHandlerMiddleware
     {
         //use the naming convention expected by Angular.js
-        public const string CSRF_HEADER_KEY = "X-XSRF-TOKEN";
-        public const string CSRF_COOKIE_KEY = "XSRF-TOKEN";
+        public const string CSRF_HEADER_NAME = "X-XSRF-TOKEN";
+        public const string CSRF_COOKIE_NAME = "XSRF-TOKEN";
+        public const string CSRF_FORM_FIELD_NAME = "XSRF-TOKEN";
 
         private readonly RequestDelegate _next;
         private readonly WebSettingsBase _settings;

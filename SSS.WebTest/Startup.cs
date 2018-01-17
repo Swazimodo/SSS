@@ -53,8 +53,9 @@ namespace SSS.WebTest
             if (settings.CSRFSettings.Enabled)
                 services.AddAntiforgery(opts =>
                 {
-                    opts.HeaderName = AntiforgeryHandlerMiddleware.CSRF_HEADER_KEY;
-                    opts.Cookie.Name = AntiforgeryHandlerMiddleware.CSRF_COOKIE_KEY;
+                    opts.HeaderName = AntiforgeryHandlerMiddleware.CSRF_HEADER_NAME;
+                    opts.Cookie.Name = AntiforgeryHandlerMiddleware.CSRF_COOKIE_NAME;
+                    opts.FormFieldName = AntiforgeryHandlerMiddleware.CSRF_FORM_FIELD_NAME;
                 });
 
             ////configure API versions
