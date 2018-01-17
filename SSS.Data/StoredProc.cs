@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 
 using SSS.Utilities.Exceptions;
+using SSS.Utilities.Interfaces;
 
 namespace SSS.Data
 {
@@ -23,13 +24,13 @@ namespace SSS.Data
         /// <param name="logger"></param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled datatable</returns>
-        public static DataTableResult GetDataTable(string connectionString, string storedProcName, List<SqlParameter> sqlParams, bool logDBMessages, ILogger logger, bool exceptionOnError = true)
+        public static DataTableResult GetDataTable(string connectionString, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
         {
             DataTableResult dt = null;
 
             try
             {
-                using (SqlConnection conn = CreateConnection(connectionString, logDBMessages, logger))
+                using (SqlConnection conn = CreateConnection(connectionString, opts.LogDBMessages, logger))
                 using (SqlCommand cmd = new SqlCommand(storedProcName, conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -52,13 +53,11 @@ namespace SSS.Data
                     cmd.Parameters.Clear();
                 }
 
-                //check for db error
-                if (dt.Result < 0)
-                    throw new StoredProcedureException("Stored procedure returned an error code:" + dt.Result.ToString(), dt.Result);
+                CheckForErrors(storedProcName, sqlParams, dt, opts, exceptionOnError, logger);
             }
             catch (Exception ex)
             {
-                string error = string.Format("Unable to run {0}, Params: {1}", storedProcName, ParamsToString(sqlParams));
+                string error = $"Unable to run {storedProcName}, Params: {ParamsToString(sqlParams)}";
                 DataAccessException e = new DataAccessException(error, ex);
                 //logger.LogWarning(new EventId(), e, error);
                 throw e;
@@ -75,7 +74,7 @@ namespace SSS.Data
         /// <param name="sqlParams">Parameters to add to query</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled datatable</returns>
-        public static DataTableResult GetDataTable(SqlTransaction transaction, string storedProcName, List<SqlParameter> sqlParams, bool exceptionOnError = true)
+        public static DataTableResult GetDataTable(SqlTransaction transaction, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
         {
             DataTableResult dt = null;
 
@@ -107,9 +106,7 @@ namespace SSS.Data
                     cmd.Parameters.Clear();
                 }
 
-                //check for db error
-                if (dt.Result < 0)
-                    throw new StoredProcedureException("Stored procedure returned an error code:" + dt.Result.ToString(), dt.Result);
+                CheckForErrors(storedProcName, sqlParams, dt, opts, exceptionOnError, logger);
             }
             catch (Exception ex)
             {
@@ -131,9 +128,9 @@ namespace SSS.Data
         /// <param name="logger"></param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled datatable</returns>
-        public static DataTableResult GetDataTable(string connectionString, string storedProcName, bool logDBMessages, ILogger logger, bool exceptionOnError = true)
+        public static DataTableResult GetDataTable(string connectionString, string storedProcName, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
         {
-            return GetDataTable(connectionString, storedProcName, null, logDBMessages, logger, exceptionOnError);
+            return GetDataTable(connectionString, storedProcName, null, opts, logger, exceptionOnError);
         }
 
         /// <summary>
@@ -146,13 +143,13 @@ namespace SSS.Data
         /// <param name="logger"></param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled dataset</returns>
-        public static DataSetResult GetDataSet(string connectionString, string storedProcName, List<SqlParameter> sqlParams, bool logDBMessages, ILogger logger, bool exceptionOnError = true)
+        public static DataSetResult GetDataSet(string connectionString, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
         {
             DataSetResult ds = null;
 
             try
             {
-                using (SqlConnection conn = CreateConnection(connectionString, logDBMessages, logger))
+                using (SqlConnection conn = CreateConnection(connectionString, opts.LogDBMessages, logger))
                 using (SqlCommand cmd = new SqlCommand(storedProcName, conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -180,9 +177,7 @@ namespace SSS.Data
                     cmd.Parameters.Clear();
                 }
 
-                //check for db error
-                if (ds.Result < 0)
-                    throw new StoredProcedureException("Stored procedure returned an error code:" + ds.Result.ToString(), ds.Result);
+                CheckForErrors(storedProcName, sqlParams, ds, opts, exceptionOnError, logger);
             }
             catch (Exception ex)
             {
@@ -203,7 +198,7 @@ namespace SSS.Data
         /// <param name="sqlParams">Parameters to add to query</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled dataset</returns>
-        public static DataSetResult GetDataSet(SqlTransaction transaction, string storedProcName, List<SqlParameter> sqlParams, bool exceptionOnError = true)
+        public static DataSetResult GetDataSet(SqlTransaction transaction, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
         {
             DataSetResult ds = null;
 
@@ -240,9 +235,7 @@ namespace SSS.Data
                     cmd.Parameters.Clear();
                 }
 
-                //check for db error
-                if (ds.Result < 0)
-                    throw new StoredProcedureException("Stored procedure returned an error code:" + ds.Result.ToString(), ds.Result);
+                CheckForErrors(storedProcName, sqlParams, ds, opts, exceptionOnError, logger);
             }
             catch (Exception ex)
             {
@@ -264,29 +257,12 @@ namespace SSS.Data
         /// <param name="logger"></param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled dataset</returns>
-        public static DataSetResult GetDataSet(string connectionString, string storedProcName, bool logDBMessages, ILogger logger, bool exceptionOnError = true)
+        public static DataSetResult GetDataSet(string connectionString, string storedProcName, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
         {
-            return GetDataSet(connectionString, storedProcName, null, logDBMessages, logger, exceptionOnError);
+            return GetDataSet(connectionString, storedProcName, null, opts, logger, exceptionOnError);
         }
 
         #endregion
-
-        public static string ParamsToString(List<SqlParameter> list)
-        {
-            if (list == null || list.Count == 0)
-                return "[null]";
-
-            StringBuilder sb = new StringBuilder();
-            foreach (SqlParameter param in list)
-                sb.AppendFormat("{0}: {1}, ", param.ParameterName, param.Value);
-
-            //trim off extra ", " at the end
-            string s = sb.ToString();
-            if (s.Length > 3)
-                s = s.Substring(0, s.Length - 2);
-
-            return s;
-        }
 
         public static SqlConnection CreateConnection(string connectionString, bool logMessages, ILogger logger)
         {
@@ -332,7 +308,66 @@ namespace SSS.Data
                 //logger.LogWarning(new EventId(), e, error);
                 throw e;
             }
+        }
 
+        static string ParamsToString(List<SqlParameter> list)
+        {
+            if (list == null || list.Count == 0)
+                return "[null]";
+
+            StringBuilder sb = new StringBuilder();
+            foreach (SqlParameter param in list)
+                sb.AppendFormat("{0}: {1}, ", param.ParameterName, param.Value);
+
+            //trim off extra ", " at the end
+            string s = sb.ToString();
+            if (s.Length > 3)
+                s = s.Substring(0, s.Length - 2);
+
+            return s;
+        }
+
+        /// <summary>
+        /// Checks DataTableResult for any errors
+        /// </summary>
+        static void CheckForErrors(string storedProcName, List<SqlParameter> sqlParams, DataTableResult dt, IStoredProcOpts opts, bool exceptionOnError, ILogger logger)
+        {
+            //check for db error
+            if (exceptionOnError && dt.Result < 0)
+                throw new StoredProcedureException("Stored procedure returned an error code:" + dt.Result.ToString(), dt.Result);
+
+            if (opts.MaxDBRowsException != null && dt.Rows.Count >= opts.MaxDBRowsException)
+            {
+                string message = $"Stored proceedure {storedProcName} has exceeded the MaxDBRowsException threshold value. Params: {ParamsToString(sqlParams)}";
+                logger.LogCritical(message);
+                throw new StoredProcedureException(message, dt.Result);
+            }
+
+            if (opts.LogWarningMaxDBRows != null && dt.Rows.Count >= opts.LogWarningMaxDBRows)
+                logger.LogWarning($"Stored proceedure {storedProcName} has exceeded the LogWarningMaxDBRows threshold value. Params: {ParamsToString(sqlParams)}");
+        }
+
+        /// <summary>
+        /// Checks all datatables in a DataSetResult for any errors
+        /// </summary>
+        static void CheckForErrors(string storedProcName, List<SqlParameter> sqlParams, DataSetResult ds, IStoredProcOpts opts, bool exceptionOnError, ILogger logger)
+        {
+            //check for db error
+            if (exceptionOnError && ds.Result < 0)
+                throw new StoredProcedureException("Stored procedure returned an error code:" + ds.Result.ToString(), ds.Result);
+
+            foreach (DataTable dt in ds.Tables)
+            {
+                if (opts.MaxDBRowsException != null && dt.Rows.Count >= opts.MaxDBRowsException)
+                {
+                    string message = $"Stored proceedure {storedProcName} has exceeded the MaxDBRowsException threshold value. Params: {ParamsToString(sqlParams)}";
+                    logger.LogCritical(message);
+                    throw new StoredProcedureException(message, ds.Result);
+                }
+
+                if (opts.LogWarningMaxDBRows != null && dt.Rows.Count >= opts.LogWarningMaxDBRows)
+                    logger.LogWarning($"Stored proceedure {storedProcName} has exceeded the LogWarningMaxDBRows threshold value. Params: {ParamsToString(sqlParams)}");
+            }
         }
     }
 }

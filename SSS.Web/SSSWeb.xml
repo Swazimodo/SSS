@@ -56,6 +56,23 @@
             <param name="context">Current context to evaluate</param>
             <returns>true if the current request needs to be validated</returns>
         </member>
+        <member name="P:SSS.Web.Configuration.GlobalErrorHandlerSettings.ShowErrors">
+            <summary>
+            Whether errors are passed back through the API
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.GlobalErrorHandlerSettings.ErrorPage">
+            <summary>
+            Will redirect users to this page if a page request threw and exception
+            </summary>
+            <example>/Error/</example>
+        </member>
+        <member name="P:SSS.Web.Configuration.GlobalErrorHandlerSettings.JsonErrorPaths">
+            <summary>
+            Any paths referenced here will have JSON error details returned instead of firing a redict to the error page
+            </summary>
+            <example>"/api/", "/websocket/"</example>
+        </member>
         <member name="T:SSS.Web.Configuration.WebSettingsBase">
             <summary>
             Configuration for the web server setting inherit if you want to add new config values (ex. AppDB)
@@ -71,9 +88,9 @@
             Title of HS Environment
             </summary>
         </member>
-        <member name="P:SSS.Web.Configuration.WebSettingsBase.ShowErrors">
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.ErrorHandlerSettings">
             <summary>
-            Whether errors are passed back through the API
+            
             </summary>
         </member>
         <member name="P:SSS.Web.Configuration.WebSettingsBase.LogDBMessages">
@@ -112,6 +129,16 @@
             Gets a timespan from the SessionExpiration string
             </summary>
             <returns>Default to 24 minutes if SessionExpiration null or invalid</returns>
+        </member>
+        <member name="M:SSS.Web.Configuration.WebSettingsBase.IsDevelopment">
+            <summary>
+            Check if this is currently in the development environment
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.WebSettingsBase.IsProduction">
+            <summary>
+            Check if this is currently in the production environment
+            </summary>
         </member>
         <member name="M:SSS.Web.Extensions.ConfigurationExtensions.IsTrue(System.String)">
             <summary>
@@ -193,6 +220,17 @@
             </summary>
             <param name="options">options.WebSettings cannot be null</param>
             <returns></returns>
+        </member>
+        <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.LogErrorCallback">
+            <summary>
+            Here you can add custom logging or error handling
+            </summary>
+        </member>
+        <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.MaxErrorCountCallback">
+            <summary>
+            This is a callback when a user passes a threshold value set to see if one user is having too many errors.
+            This could indicate an application availablity issue or an intentional attack.
+            </summary>
         </member>
         <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.WebSettings">
             <summary>

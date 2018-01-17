@@ -1,6 +1,16 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace SSS.WebTest
 {
@@ -22,12 +32,44 @@ namespace SSS.WebTest
                 .Build();
             var hostConfig = builder.GetSection("HostConfiguration").Get<Web.Configuration.HostConfiguration>();
 
-            IWebHost webHost = WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+            IWebHost webHost = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseEnvironment(hostConfig.Environment)
-                .CaptureStartupErrors(hostConfig.CaptureStartupErrors)
-                .UseWebRoot(hostConfig.WebRoot)
+                .UseStartup<Startup>()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                    if (args != null)
+                    {
+                        config.AddCommandLine(args);
+                    }
+                })
+                //.ConfigureLogging((hostingContext, logging) =>
+                //{
+                //    logging.UseConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                //    logging.AddConsole();
+                //    logging.AddDebug();
+                //})
+                .UseDefaultServiceProvider((context, options) =>
+                {
+                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                })
+                //.ConfigureServices(services =>
+                //{
+                //    services.AddTransient<IConfigureOptions<KestrelServerOptions>, KestrelServerOptionsSetup>();
+                //})
                 .Build();
+
+            //webHost = WebHost.CreateDefaultBuilder(args)
+            //    .UseStartup<Startup>()
+            //    .UseEnvironment(hostConfig.Environment)
+            //    .CaptureStartupErrors(hostConfig.CaptureStartupErrors)
+            //    .UseWebRoot(hostConfig.WebRoot)
+            //    .Build();
 
             return webHost;
         }

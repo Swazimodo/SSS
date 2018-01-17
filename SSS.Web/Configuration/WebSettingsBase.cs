@@ -1,12 +1,32 @@
 ﻿using System;
+using SSS.Utilities.Interfaces;
 
 namespace SSS.Web.Configuration
 {
     /// <summary>
     /// Configuration for the web server setting inherit if you want to add new config values (ex. AppDB)
     /// </summary>
-    public class WebSettingsBase
+    public class WebSettingsBase : IStoredProcOpts
     {
+        #region IStoredProcOpts
+
+        /// <summary>
+        /// Whether DB messages are logged
+        /// </summary>
+        public bool LogDBMessages { get; set; }
+
+        /// <summary>
+        /// If a data table returns more than this many rows a warning is logged
+        /// </summary>
+        public int? LogWarningMaxDBRows { get; set; }
+
+        /// <summary>
+        /// If a data table returns more than this many rows a critical exception is thrown
+        /// </summary>
+        public int? MaxDBRowsException { get; set; }
+
+        #endregion
+
         /// <summary>
         /// Specifies the release version
         /// </summary>
@@ -21,11 +41,6 @@ namespace SSS.Web.Configuration
         /// 
         /// </summary>
         public GlobalErrorHandlerSettings ErrorHandlerSettings { get; set; }
-
-        /// <summary>
-        /// Whether DB messages are logged
-        /// </summary>
-        public bool LogDBMessages { get; set; }
 
         ///// <summary>
         ///// This needs to be enabled in PROD for security but will break swashbuckle swagger UI test forms

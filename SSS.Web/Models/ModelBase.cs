@@ -23,7 +23,7 @@ namespace SSS.Web.Models
         public static void AddError(ModelBase model, string error, Configuration.WebSettingsBase settings, ILogger logger)
         {
             model.HasError = true;
-            if (settings.ShowErrors)
+            if (settings.ErrorHandlerSettings.ShowErrors)
                 model.Message = error;
             else
                 model.Message = DEFAULT_ERROR_MSG;
@@ -37,7 +37,7 @@ namespace SSS.Web.Models
         public static void AddError(ModelBase model, Exception error, Configuration.WebSettingsBase settings, ILogger logger)
         {
             model.HasError = true;
-            if (settings.ShowErrors)
+            if (settings.ErrorHandlerSettings.ShowErrors)
                 model.Message = error.Message;
             else
                 model.Message = DEFAULT_ERROR_MSG;
