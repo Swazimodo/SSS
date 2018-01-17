@@ -1,16 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using Microsoft.AspNetCore;
+﻿using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace SSS.WebTest
 {
@@ -41,8 +33,12 @@ namespace SSS.WebTest
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+                    // reload on change is disabled because it would be best practice to 
+                    // recycle the application when you are ready to apply the change
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: false);
+
                     if (args != null)
                     {
                         config.AddCommandLine(args);
@@ -66,13 +62,6 @@ namespace SSS.WebTest
                 //    services.AddTransient<IConfigureOptions<KestrelServerOptions>, KestrelServerOptionsSetup>();
                 //})
                 .Build();
-
-            //webHost = WebHost.CreateDefaultBuilder(args)
-            //    .UseStartup<Startup>()
-            //    .UseEnvironment(hostConfig.Environment)
-            //    .CaptureStartupErrors(hostConfig.CaptureStartupErrors)
-            //    .UseWebRoot(hostConfig.WebRoot)
-            //    .Build();
 
             return webHost;
         }
