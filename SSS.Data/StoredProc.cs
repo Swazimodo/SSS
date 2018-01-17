@@ -266,37 +266,45 @@ namespace SSS.Data
             return GetDataSet(connectionString, storedProcName, null, opts, logger, exceptionOnError);
         }
 
-        //TODO: standardize this method, possibly add a generic to return a casted type
-        public static string GetValue(string connectionString, string storedProcName, List<SqlParameter> sqlParams, bool logDBMessages, ILogger logger, bool exceptionOnError = true)
+        //TODO: possibly add a generic to return a casted type
+        public static string GetValue(string connectionString, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
         {
             DataTableResult dt = null;
 
             try
             {
-                using (SqlConnection conn = CreateConnection(connectionString, logDBMessages, logger))
+                using (SqlConnection conn = CreateConnection(connectionString, opts.LogDBMessages, logger))
                 using (SqlCommand cmd = new SqlCommand(storedProcName, conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (sqlParams != null && sqlParams.Count > 0)
                         cmd.Parameters.AddRange(sqlParams.ToArray());
 
+                    //Add the return value
+                    SqlParameter returnParameter = new SqlParameter("@return_value", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    cmd.Parameters.Add(returnParameter);
+
                     using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                     {
                         dt = new DataTableResult();
                         adapter.Fill(dt);
+                        dt.Result = (int)cmd.Parameters["@return_value"].Value;
                     }
 
                     //prevent 'The SqlParameter is already contained by another SqlParameterCollection' exception when params are reused
                     cmd.Parameters.Clear();
                 }
 
+                CheckForErrors(storedProcName, sqlParams, dt, opts, exceptionOnError, logger);
+
+                //allow exception to be thrown from missing null check
                 return dt.Rows[0][0].ToString();
             }
             catch (Exception ex)
             {
                 string error = string.Format("Unable to run {0}, Params: {1}", storedProcName, ParamsToString(sqlParams));
                 DataAccessException e = new DataAccessException(error, ex);
-                //logger.LogWarning(new EventId(), e, error);
                 throw e;
             }
         }
