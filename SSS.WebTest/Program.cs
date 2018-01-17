@@ -48,16 +48,19 @@ namespace SSS.WebTest
                         config.AddCommandLine(args);
                     }
                 })
-                //.ConfigureLogging((hostingContext, logging) =>
-                //{
-                //    logging.UseConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                //    logging.AddConsole();
-                //    logging.AddDebug();
-                //})
-                .UseDefaultServiceProvider((context, options) =>
+                .ConfigureLogging((hostingContext, logging) =>
                 {
-                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    if (hostConfig.LocalDebug)
+                    {
+                        logging.AddConsole();
+                        logging.AddDebug();
+                    }
                 })
+                //.UseDefaultServiceProvider((context, options) =>
+                //{
+                //    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                //})
                 //.ConfigureServices(services =>
                 //{
                 //    services.AddTransient<IConfigureOptions<KestrelServerOptions>, KestrelServerOptionsSetup>();
