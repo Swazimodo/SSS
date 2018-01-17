@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SSS.Web.Configuration
 {
+    /// <summary>
+    /// Config values for enabling ErrorHandlerMiddleware
+    /// </summary>
     public class GlobalErrorHandlerSettings
     {
         /// <summary>
@@ -22,6 +25,12 @@ namespace SSS.Web.Configuration
         /// </summary>
         /// <example>"/api/", "/websocket/"</example>
         public List<string> JsonErrorPaths { get; set; }
+        
+        /// <summary>
+        /// Maximum number of errors allowed in one session before user is locked out
+        /// null value == unlimited
+        /// </summary>
+        public int? MaxSessionErrors { get; set; }
 
         public GlobalErrorHandlerSettings()
         {

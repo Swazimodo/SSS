@@ -11,7 +11,7 @@ namespace SSS.WebTest
 {
     public class Common
     {
-        public static void LogErrorCallback(Exception exception, HttpContext context, WebSettingsBase webSettings, ILogger logger)
+        public static void LogErrorCallback(Exception exception, HttpContext context, GlobalErrorHandlerSettings settings, ILogger logger)
         {
             //ApplicationSettings settings = webSettings as ApplicationSettings;
             //if (settings == null)
@@ -32,7 +32,7 @@ namespace SSS.WebTest
         /// <param name="context"></param>
         /// <param name="webSettings"></param>
         /// <param name="logger"></param>
-        public static void MaxErrorCountCallback(HttpContext context, WebSettingsBase webSettings, ILogger logger)
+        public static void MaxErrorCountCallback(HttpContext context, GlobalErrorHandlerSettings settings, ILogger logger)
         {
             //ApplicationSettings settings = webSettings as ApplicationSettings;
             //if (settings == null)

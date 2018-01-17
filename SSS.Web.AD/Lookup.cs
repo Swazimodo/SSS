@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using SSS.Utilities.Exceptions;
 using SSS.Utilities.Interfaces;
 
-namespace SSS.Web.Users.AD
+namespace SSS.Web.AD
 {
     public static class Lookup
     {

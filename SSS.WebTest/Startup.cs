@@ -147,7 +147,7 @@ namespace SSS.WebTest
             {
                 LogErrorCallback = Common.LogErrorCallback,
                 MaxErrorCountCallback = Common.MaxErrorCountCallback,
-                WebSettings = settings
+                WebSettings = settings.ErrorHandlerSettings
             });
 
             ////setup swagger

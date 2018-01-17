@@ -4,29 +4,10 @@ using SSS.Utilities.Interfaces;
 namespace SSS.Web.Configuration
 {
     /// <summary>
-    /// Configuration for the web server setting inherit if you want to add new config values (ex. AppDB)
+    /// Base configuration for the web server. Inherit if you want to add new config values (ex. AppDB)
     /// </summary>
-    public class WebSettingsBase : IStoredProcOpts
+    public class WebSettingsBase
     {
-        #region IStoredProcOpts
-
-        /// <summary>
-        /// Whether DB messages are logged
-        /// </summary>
-        public bool LogDBMessages { get; set; }
-
-        /// <summary>
-        /// If a data table returns more than this many rows a warning is logged
-        /// </summary>
-        public int? LogWarningMaxDBRows { get; set; }
-
-        /// <summary>
-        /// If a data table returns more than this many rows a critical exception is thrown
-        /// </summary>
-        public int? MaxDBRowsException { get; set; }
-
-        #endregion
-
         /// <summary>
         /// Specifies the release version
         /// </summary>
@@ -36,21 +17,6 @@ namespace SSS.Web.Configuration
         /// Title of HS Environment
         /// </summary>
         public string EnvironmentName { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public GlobalErrorHandlerSettings ErrorHandlerSettings { get; set; }
-
-        ///// <summary>
-        ///// This needs to be enabled in PROD for security but will break swashbuckle swagger UI test forms
-        ///// </summary>
-        //public bool EnableCSRF { get; set; }
-
-        /// <summary>
-        /// Contains all the configuration to enable site CSRF checking
-        /// </summary>
-        public GlobalCSRFSettings CSRFSettings { get; set; }
 
         /// <summary>
         /// Session timeout value in minutes
@@ -68,24 +34,42 @@ namespace SSS.Web.Configuration
         public string DateFormat { get; set; }
 
         /// <summary>
-        /// Maximum number of errors allowed in one session before user is locked out
-        /// null value == unlimited
+        /// Config values for SSS.Data.StoredProc
         /// </summary>
-        public int? MaxSessionErrors { get; set; }
+        public StoredProcSettings StoredProcSettings { get; set; }
 
+        /// <summary>
+        /// Config values for enabling ErrorHandlerMiddleware
+        /// </summary>
+        public GlobalErrorHandlerSettings ErrorHandlerSettings { get; set; }
+
+        /// <summary>
+        /// Contains all the configuration to enable site CSRF checking middleware
+        /// </summary>
+        public GlobalCSRFSettings CSRFSettings { get; set; }
+
+        /// <summary>
+        /// creates a settings object with default values
+        /// </summary>
         public WebSettingsBase()
         {
             //set default values
             AppVersion = "0.0.1";
             EnvironmentName = "Development";
-            ErrorHandlerSettings = new GlobalErrorHandlerSettings() { ShowErrors = true };
-            //ShowErrors = true;
-            LogDBMessages = true;
-            CSRFSettings = new GlobalCSRFSettings() { Enabled = false };
-            //EnableCSRF = true;
-            IdleTimeout = 60; //one hour
             DateFormat = "yyyy-MM-dd";
-            MaxSessionErrors = null; //null == unlimited
+            IdleTimeout = 24; //time in minutes
+            SessionExpiration = "12:00:00"; //dd.hh:mm:ss
+
+            ErrorHandlerSettings = new GlobalErrorHandlerSettings() {
+                ShowErrors = true,
+                MaxSessionErrors = null //null == unlimited
+            };
+            StoredProcSettings = new StoredProcSettings() {
+                LogDBMessages = true
+            };
+            CSRFSettings = new GlobalCSRFSettings() {
+                Enabled = false
+            };
         }
 
         /// <summary>

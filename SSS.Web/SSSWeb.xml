@@ -56,6 +56,11 @@
             <param name="context">Current context to evaluate</param>
             <returns>true if the current request needs to be validated</returns>
         </member>
+        <member name="T:SSS.Web.Configuration.GlobalErrorHandlerSettings">
+            <summary>
+            Config values for enabling ErrorHandlerMiddleware
+            </summary>
+        </member>
         <member name="P:SSS.Web.Configuration.GlobalErrorHandlerSettings.ShowErrors">
             <summary>
             Whether errors are passed back through the API
@@ -73,9 +78,40 @@
             </summary>
             <example>"/api/", "/websocket/"</example>
         </member>
+        <member name="P:SSS.Web.Configuration.GlobalErrorHandlerSettings.MaxSessionErrors">
+            <summary>
+            Maximum number of errors allowed in one session before user is locked out
+            null value == unlimited
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Configuration.HostConfiguration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SSS.Web.Configuration.StoredProcSettings">
+            <summary>
+            Config values for SSS.Data.StoredProc
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.StoredProcSettings.LogDBMessages">
+            <summary>
+            Whether DB messages are logged
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.StoredProcSettings.LogWarningMaxDBRows">
+            <summary>
+            If a data table returns more than this many rows a warning is logged
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.StoredProcSettings.MaxDBRowsException">
+            <summary>
+            If a data table returns more than this many rows a critical exception is thrown
+            </summary>
+        </member>
         <member name="T:SSS.Web.Configuration.WebSettingsBase">
             <summary>
-            Configuration for the web server setting inherit if you want to add new config values (ex. AppDB)
+            Base configuration for the web server. Inherit if you want to add new config values (ex. AppDB)
             </summary>
         </member>
         <member name="P:SSS.Web.Configuration.WebSettingsBase.AppVersion">
@@ -86,21 +122,6 @@
         <member name="P:SSS.Web.Configuration.WebSettingsBase.EnvironmentName">
             <summary>
             Title of HS Environment
-            </summary>
-        </member>
-        <member name="P:SSS.Web.Configuration.WebSettingsBase.ErrorHandlerSettings">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:SSS.Web.Configuration.WebSettingsBase.LogDBMessages">
-            <summary>
-            Whether DB messages are logged
-            </summary>
-        </member>
-        <member name="P:SSS.Web.Configuration.WebSettingsBase.CSRFSettings">
-            <summary>
-            Contains all the configuration to enable site CSRF checking
             </summary>
         </member>
         <member name="P:SSS.Web.Configuration.WebSettingsBase.IdleTimeout">
@@ -118,10 +139,24 @@
             Date format to be used throughout site
             </summary>
         </member>
-        <member name="P:SSS.Web.Configuration.WebSettingsBase.MaxSessionErrors">
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.StoredProcSettings">
             <summary>
-            Maximum number of errors allowed in one session before user is locked out
-            null value == unlimited
+            Config values for SSS.Data.StoredProc
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.ErrorHandlerSettings">
+            <summary>
+            Config values for enabling ErrorHandlerMiddleware
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.CSRFSettings">
+            <summary>
+            Contains all the configuration to enable site CSRF checking middleware
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.WebSettingsBase.#ctor">
+            <summary>
+            creates a settings object with default values
             </summary>
         </member>
         <member name="M:SSS.Web.Configuration.WebSettingsBase.GetSessionExpirationTimeSpan">
@@ -234,7 +269,7 @@
         </member>
         <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.WebSettings">
             <summary>
-            Site settings, cannot be null
+            Global error handler settings, cannot be null
             </summary>
         </member>
         <member name="T:SSS.Web.MiddleWare.HttpNoContentOutputMiddlewareExtensions">

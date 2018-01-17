@@ -81,7 +81,7 @@ namespace SSS.Web.MiddleWare
                     httpContext.Response.ContentType = "application/json; charset=utf-8";
 
                     APIError error;
-                    if (options.WebSettings.ErrorHandlerSettings.ShowErrors)
+                    if (options.WebSettings.ShowErrors)
                         error = new APIError(exception);
                     else
                         error = new APIError();
@@ -107,7 +107,7 @@ namespace SSS.Web.MiddleWare
                     logger.LogError(eventID, exception, ReferenceNum.ToString() + " - " + exception.Message);
 
                     //handle Page error
-                    if (options.WebSettings.ErrorHandlerSettings.ShowErrors)
+                    if (options.WebSettings.ShowErrors)
                         throwDevError = true;
                     else
                         //if this was a page load redirect to the error page
@@ -159,8 +159,8 @@ namespace SSS.Web.MiddleWare
 
     public class ErrorHandlerOptions
     {
-        public delegate void ErrorHandlerCallback(Exception exception, HttpContext context, WebSettingsBase settings, ILogger logger);
-        public delegate void MaxErrorHandlerCallback(HttpContext context, WebSettingsBase settings, ILogger logger);
+        public delegate void ErrorHandlerCallback(Exception exception, HttpContext context, GlobalErrorHandlerSettings settings, ILogger logger);
+        public delegate void MaxErrorHandlerCallback(HttpContext context, GlobalErrorHandlerSettings settings, ILogger logger);
 
         /// <summary>
         /// Here you can add custom logging or error handling
@@ -174,8 +174,8 @@ namespace SSS.Web.MiddleWare
         public MaxErrorHandlerCallback MaxErrorCountCallback { get; set; }
 
         /// <summary>
-        /// Site settings, cannot be null
+        /// Global error handler settings, cannot be null
         /// </summary>
-        public WebSettingsBase WebSettings { get; set; }
+        public GlobalErrorHandlerSettings WebSettings { get; set; }
     }
 }

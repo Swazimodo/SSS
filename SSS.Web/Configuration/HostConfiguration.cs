@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SSS.Web.Configuration
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class HostConfiguration
     {
         public bool CaptureStartupErrors { get; set; }
