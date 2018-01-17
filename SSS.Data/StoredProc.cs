@@ -20,8 +20,8 @@ namespace SSS.Data
         /// <param name="connectionString">Connection string to the CMAS DB</param>
         /// <param name="storedProcName">Name of Stored Proceedure to run</param>
         /// <param name="sqlParams">Parameters to add to query</param>
-        /// <param name="logDBMessages">Whether or not we should attached a DB listener</param>
-        /// <param name="logger"></param>
+        /// <param name="opts">Options that track how logging should be handled</param>
+        /// <param name="logger">App logger reference to use</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled datatable</returns>
         public static DataTableResult GetDataTable(string connectionString, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
@@ -72,6 +72,8 @@ namespace SSS.Data
         /// <param name="transaction">transaction to use</param>
         /// <param name="storedProcName">Name of Stored Proceedure to run</param>
         /// <param name="sqlParams">Parameters to add to query</param>
+        /// <param name="opts">Options that track how logging should be handled</param>
+        /// <param name="logger">App logger reference to use</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled datatable</returns>
         public static DataTableResult GetDataTable(SqlTransaction transaction, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
@@ -124,8 +126,8 @@ namespace SSS.Data
         /// </summary>
         /// <param name="connectionString">Connection string to the CMAS DB</param>
         /// <param name="storedProcName">Name of Stored Proceedure to run</param>
-        /// <param name="logDBMessages">Whether or not we should attached a DB listener</param>
-        /// <param name="logger"></param>
+        /// <param name="opts">Options that track how logging should be handled</param>
+        /// <param name="logger">App logger reference to use</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled datatable</returns>
         public static DataTableResult GetDataTable(string connectionString, string storedProcName, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
@@ -139,8 +141,8 @@ namespace SSS.Data
         /// <param name="connectionString">Connection string to the CMAS DB</param>
         /// <param name="storedProcName">Name of Stored Proceedure to run</param>
         /// <param name="sqlParams">Parameters to add to query</param>
-        /// <param name="logDBMessages">Whether or not we should attached a DB listener</param>
-        /// <param name="logger"></param>
+        /// <param name="opts">Options that track how logging should be handled</param>
+        /// <param name="logger">App logger reference to use</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled dataset</returns>
         public static DataSetResult GetDataSet(string connectionString, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
@@ -196,6 +198,8 @@ namespace SSS.Data
         /// <param name="transaction">transaction to use</param>
         /// <param name="storedProcName">Name of Stored Proceedure to run</param>
         /// <param name="sqlParams">Parameters to add to query</param>
+        /// <param name="opts">Options that track how logging should be handled</param>
+        /// <param name="logger">App logger reference to use</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled dataset</returns>
         public static DataSetResult GetDataSet(SqlTransaction transaction, string storedProcName, List<SqlParameter> sqlParams, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
@@ -253,8 +257,8 @@ namespace SSS.Data
         /// </summary>
         /// <param name="connectionString">Connection string to the CMAS DB</param>
         /// <param name="storedProcName">Name of Stored Proceedure to run</param>
-        /// <param name="logDBMessages">Whether or not we should attached a DB listener</param>
-        /// <param name="logger"></param>
+        /// <param name="opts">Options that track how logging should be handled</param>
+        /// <param name="logger">App logger reference to use</param>
         /// <param name="exceptionOnError">should an exception be throw on negative return code</param>
         /// <returns>Filled dataset</returns>
         public static DataSetResult GetDataSet(string connectionString, string storedProcName, IStoredProcOpts opts, ILogger logger, bool exceptionOnError = true)
@@ -262,20 +266,7 @@ namespace SSS.Data
             return GetDataSet(connectionString, storedProcName, null, opts, logger, exceptionOnError);
         }
 
-        #endregion
-
-        public static SqlConnection CreateConnection(string connectionString, bool logMessages, ILogger logger)
-        {
-            SqlConnection conn = new SqlConnection(connectionString);
-            if (logMessages)
-            {
-                DatabaseLogger dbLogger = new DatabaseLogger(logger);
-                conn.InfoMessage += new SqlInfoMessageEventHandler(dbLogger.LogDBMessages);
-            }
-            conn.Open();
-            return conn;
-        }
-
+        //TODO: standardize this method, possibly add a generic to return a casted type
         public static string GetValue(string connectionString, string storedProcName, List<SqlParameter> sqlParams, bool logDBMessages, ILogger logger, bool exceptionOnError = true)
         {
             DataTableResult dt = null;
@@ -310,6 +301,27 @@ namespace SSS.Data
             }
         }
 
+        #endregion
+
+        public static SqlConnection CreateConnection(string connectionString, bool logMessages, ILogger logger)
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+            if (logMessages)
+            {
+                DatabaseLogger dbLogger = new DatabaseLogger(logger);
+                conn.InfoMessage += new SqlInfoMessageEventHandler(dbLogger.LogDBMessages);
+            }
+            conn.Open();
+            return conn;
+        }
+
+        #region private methods
+
+        /// <summary>
+        /// takes the parameters for a stored proc and converts it into a string for logging perposes
+        /// </summary>
+        /// <param name="list">List of parameters</param>
+        /// <returns>strified parameter list</returns>
         static string ParamsToString(List<SqlParameter> list)
         {
             if (list == null || list.Count == 0)
@@ -369,5 +381,7 @@ namespace SSS.Data
                     logger.LogWarning($"Stored proceedure {storedProcName} has exceeded the LogWarningMaxDBRows threshold value. Params: {ParamsToString(sqlParams)}");
             }
         }
+
+        #endregion
     }
 }
