@@ -102,7 +102,7 @@ namespace SSS.WebTest
             if (settings.IsDevelopment())
             {
                 //app.UseBrowserLink(); // several studies have shown this to cause cancer
-                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+                //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
                 app.UseStaticFiles();
             }
             else
@@ -114,7 +114,7 @@ namespace SSS.WebTest
                     OnPrepareResponse = (context) =>
                     {
                         context.Context.Response.Headers["Cache-Control"] =
-                            "public, max-age=31536000";
+                            "private, max-age=2592000";
                         //context.Context.Response.Headers["Expires"] =
                         //    DateTime.UtcNow.AddHours(12).ToString("R");
                     }

@@ -40,7 +40,7 @@ namespace SSS.Web.Configuration
         }
 
         /// <summary>
-        /// Check if this is currently in the development environment
+        /// Check if this is currently in the "Development" environment
         /// </summary>
         public bool IsDevelopment()
         {
@@ -48,7 +48,7 @@ namespace SSS.Web.Configuration
         }
 
         /// <summary>
-        /// Check if this is currently in the production environment
+        /// Check if this is currently in the "Production" environment
         /// </summary>
         public bool IsProduction()
         {

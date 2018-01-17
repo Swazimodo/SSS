@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="AntiXSS" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.1" />

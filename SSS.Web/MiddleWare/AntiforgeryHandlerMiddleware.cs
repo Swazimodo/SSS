@@ -57,18 +57,4 @@ namespace SSS.Web.MiddleWare
             await _next(httpContext);
         }
     }
-
-    /// <summary>
-    /// Extension method used to add the error handling middleware to the HTTP request pipeline
-    /// </summary>
-    public static class AntiforgeryHandlerMiddlewareExtensions
-    {
-        /// <summary>
-        /// Checks config to see if it should be enabled
-        /// </summary>
-        public static IApplicationBuilder UseAntiforgeryHandlerMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<AntiforgeryHandlerMiddleware>();
-        }
-    }
 }

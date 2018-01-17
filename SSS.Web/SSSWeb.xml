@@ -34,6 +34,22 @@
             <param name="context">Current context to evaluate</param>
             <returns>true if current request matches this rule</returns>
         </member>
+        <member name="P:SSS.Web.Configuration.ErrorHandlerOptions.LogErrorCallback">
+            <summary>
+            Here you can add custom logging or error handling
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.ErrorHandlerOptions.MaxErrorCountCallback">
+            <summary>
+            This is a callback when a user passes a threshold value set to see if one user is having too many errors.
+            This could indicate an application availablity issue or an intentional attack.
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.ErrorHandlerOptions.WebSettings">
+            <summary>
+            Global error handler settings, cannot be null
+            </summary>
+        </member>
         <member name="P:SSS.Web.Configuration.GlobalCSRFSettings.Enabled">
             <summary>
             True if CSRF checks should be enabled for the site
@@ -116,12 +132,12 @@
         </member>
         <member name="M:SSS.Web.Configuration.HostConfiguration.IsDevelopment">
             <summary>
-            Check if this is currently in the development environment
+            Check if this is currently in the "Development" environment
             </summary>
         </member>
         <member name="M:SSS.Web.Configuration.HostConfiguration.IsProduction">
             <summary>
-            Check if this is currently in the production environment
+            Check if this is currently in the "Production" environment
             </summary>
         </member>
         <member name="T:SSS.Web.Configuration.StoredProcSettings">
@@ -202,12 +218,29 @@
         </member>
         <member name="M:SSS.Web.Configuration.WebSettingsBase.IsDevelopment">
             <summary>
-            Check if this is currently in the development environment
+            Check if this is currently in the "Development" environment
             </summary>
         </member>
         <member name="M:SSS.Web.Configuration.WebSettingsBase.IsProduction">
             <summary>
-            Check if this is currently in the production environment
+            Check if this is currently in the "Production" environment
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Extensions.ApplicationBuilderExtensions.UseErrorHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder,SSS.Web.Configuration.ErrorHandlerOptions)">
+            <summary>
+            Insert a global error handler into the pipeline
+            </summary>
+            <param name="options">options.WebSettings cannot be null</param>
+            <returns></returns>
+        </member>
+        <member name="M:SSS.Web.Extensions.ApplicationBuilderExtensions.UseHttpNoContentOutputMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            sets status code to 404 if a get request returns with no content
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Extensions.ApplicationBuilderExtensions.UseAntiforgeryHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Insert a global error CSRF checking into the pipeline
             </summary>
         </member>
         <member name="M:SSS.Web.Extensions.ConfigurationExtensions.IsTrue(System.String)">
@@ -279,58 +312,10 @@
             <param name="context">Current context</param>
             <returns>IP address</returns>
         </member>
-        <member name="T:SSS.Web.MiddleWare.AntiforgeryHandlerMiddlewareExtensions">
-            <summary>
-            Extension method used to add the error handling middleware to the HTTP request pipeline
-            </summary>
-        </member>
-        <member name="M:SSS.Web.MiddleWare.AntiforgeryHandlerMiddlewareExtensions.UseAntiforgeryHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            Checks config to see if it should be enabled
-            </summary>
-        </member>
-        <member name="M:SSS.Web.MiddleWare.ErrorHandlerMiddleware.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception,SSS.Web.MiddleWare.ErrorHandlerOptions,Microsoft.Extensions.Logging.ILogger,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+        <member name="M:SSS.Web.MiddleWare.ErrorHandlerMiddleware.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception,SSS.Web.Configuration.ErrorHandlerOptions,Microsoft.Extensions.Logging.ILogger,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
             <summary>
             API exceptions will return a JSON error message
             Page exceptions will redirect to an error page based on the http status code in not Dev environments
-            </summary>
-        </member>
-        <member name="T:SSS.Web.MiddleWare.ErrorHandlerMiddlewareExtensions">
-            <summary>
-            Extension method used to add the error handling middleware to the HTTP request pipeline
-            </summary>
-        </member>
-        <member name="M:SSS.Web.MiddleWare.ErrorHandlerMiddlewareExtensions.UseErrorHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder,SSS.Web.MiddleWare.ErrorHandlerOptions)">
-            <summary>
-            Insert a global error handler into the pipeline
-            </summary>
-            <param name="options">options.WebSettings cannot be null</param>
-            <returns></returns>
-        </member>
-        <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.LogErrorCallback">
-            <summary>
-            Here you can add custom logging or error handling
-            </summary>
-        </member>
-        <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.MaxErrorCountCallback">
-            <summary>
-            This is a callback when a user passes a threshold value set to see if one user is having too many errors.
-            This could indicate an application availablity issue or an intentional attack.
-            </summary>
-        </member>
-        <member name="P:SSS.Web.MiddleWare.ErrorHandlerOptions.WebSettings">
-            <summary>
-            Global error handler settings, cannot be null
-            </summary>
-        </member>
-        <member name="T:SSS.Web.MiddleWare.HttpNoContentOutputMiddlewareExtensions">
-            <summary>
-            Extension method used to add the error handling middleware to the HTTP request pipeline
-            </summary>
-        </member>
-        <member name="M:SSS.Web.MiddleWare.HttpNoContentOutputMiddlewareExtensions.UseHttpNoContentOutputMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            sets status code to 404 if a get request returns with no content
             </summary>
         </member>
         <member name="T:SSS.Web.Models.APIError">

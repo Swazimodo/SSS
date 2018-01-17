@@ -30,18 +30,4 @@ namespace SSS.Web.MiddleWare
             //}
         }
     }
-
-    /// <summary>
-    /// Extension method used to add the error handling middleware to the HTTP request pipeline
-    /// </summary>
-    public static class HttpNoContentOutputMiddlewareExtensions
-    {
-        /// <summary>
-        /// sets status code to 404 if a get request returns with no content
-        /// </summary>
-        public static IApplicationBuilder UseHttpNoContentOutputMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<HttpNoContentOutputMiddleware>();
-        }
-    }
 }
