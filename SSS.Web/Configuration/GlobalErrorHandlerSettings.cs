@@ -10,7 +10,7 @@ namespace SSS.Web.Configuration
     public class GlobalErrorHandlerSettings
     {
         /// <summary>
-        /// Whether errors are passed back through the API
+        /// Whether detailed errors are passed back through the API. Only use in non prod environments
         /// </summary>
         public bool ShowErrors { get; set; }
 
