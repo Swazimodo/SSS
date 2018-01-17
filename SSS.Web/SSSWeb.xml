@@ -89,6 +89,41 @@
             
             </summary>
         </member>
+        <member name="P:SSS.Web.Configuration.HostConfiguration.CaptureStartupErrors">
+            <summary>
+            Enable startup error logging
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.HostConfiguration.Environment">
+            <summary>
+            Current environment name
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.HostConfiguration.WebRoot">
+            <summary>
+            Path to site root
+            </summary>
+        </member>
+        <member name="P:SSS.Web.Configuration.HostConfiguration.LocalDebug">
+            <summary>
+            Enables features for local debugging
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.HostConfiguration.#ctor">
+            <summary>
+            Create using default options
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.HostConfiguration.IsDevelopment">
+            <summary>
+            Check if this is currently in the development environment
+            </summary>
+        </member>
+        <member name="M:SSS.Web.Configuration.HostConfiguration.IsProduction">
+            <summary>
+            Check if this is currently in the production environment
+            </summary>
+        </member>
         <member name="T:SSS.Web.Configuration.StoredProcSettings">
             <summary>
             Config values for SSS.Data.StoredProc
@@ -195,6 +230,22 @@
             looks for our custom exception types and maps them to HTTPCodes
             </summary>
             <returns>HTTPCode</returns>
+        </member>
+        <member name="M:SSS.Web.Extensions.MvcBuilderExtensions.AddSerializerSettings(Microsoft.Extensions.DependencyInjection.IMvcBuilder,SSS.Web.Configuration.WebSettingsBase)">
+            <summary>
+            Adds the default DateFormatString to the Newtonsoft.Json.JsonSerializerSettings
+            </summary>
+            <param name="mvc">Current MVC settings builder</param>
+            <param name="settings">An SSS.Web.Configuration.WebSettingsBase to configure the SerializerSettings</param>
+            <returns>The Microsoft.Extensions.DependencyInjection.IMvcBuilder so that additional calls can be chained.</returns>
+        </member>
+        <member name="M:SSS.Web.Extensions.ServiceCollectionExtensions.AddAntiforgery(Microsoft.Extensions.DependencyInjection.IServiceCollection,SSS.Web.Configuration.WebSettingsBase)">
+            <summary>
+            Conditionally adds and configures Antiforgery service as per configuration
+            </summary>
+            <param name="services">The Microsoft.Extensions.DependencyInjection.IServiceCollection to add services to.</param>
+            <param name="settings">An SSS.Web.Configuration.WebSettingsBase to configure the provided Microsoft.AspNetCore.Antiforgery.AntiforgeryOptions.</param>
+            <returns>The Microsoft.Extensions.DependencyInjection.IServiceCollection so that additional calls can be chained.</returns>
         </member>
         <member name="M:SSS.Web.Extensions.SessionExtensions.GetObject``1(Microsoft.AspNetCore.Http.ISession,System.String)">
             <summary>

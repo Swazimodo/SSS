@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using SSS.Web.Configuration;
+using SSS.Web.Extensions;
 using SSS.Web.MiddleWare;
 
 namespace SSS.WebTest
@@ -28,18 +29,14 @@ namespace SSS.WebTest
             //register custom config sections
             //use your inherited class here if applicable
             services.Configure<WebSettingsBase>(options => Configuration.GetSection("WebSettings").Bind(options));
-            //services.Configure<ApplicationRoles>(options => Configuration.GetSection("Roles").Bind(options));
-
             WebSettingsBase settings = Configuration.GetSection("WebSettings").Get<WebSettingsBase>();
             if (settings == null)
-                throw new Utilities.Exceptions.ProgramException("Null WebSettingsBase configuration object in Startup");
+                throw new Utilities.Exceptions.ProgramException("Null settings object in Startup");
 
-            IMvcBuilder mvc = services.AddMvc();
-            mvc.AddJsonOptions(opts =>
-            {
-                // configure global date serialization format
-                opts.SerializerSettings.DateFormatString = settings.DateFormat;
-            });
+            //services.Configure<ApplicationRoles>(options => Configuration.GetSection("Roles").Bind(options));
+
+            services.AddMvc()
+                .AddSerializerSettings(settings);
 
             // enable session and specify timeout and max length settings
             services.AddDistributedMemoryCache();
@@ -50,13 +47,7 @@ namespace SSS.WebTest
             });
 
             //add CSRF checking
-            if (settings.CSRFSettings.Enabled)
-                services.AddAntiforgery(opts =>
-                {
-                    opts.HeaderName = AntiforgeryHandlerMiddleware.CSRF_HEADER_NAME;
-                    opts.Cookie.Name = AntiforgeryHandlerMiddleware.CSRF_COOKIE_NAME;
-                    opts.FormFieldName = AntiforgeryHandlerMiddleware.CSRF_FORM_FIELD_NAME;
-                });
+            services.AddAntiforgery(settings);
 
             ////configure API versions
             //services.AddSwaggerGen(c =>
@@ -98,11 +89,11 @@ namespace SSS.WebTest
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(Configuration.GetSection("Logging")["PathFormat"]);
+
             WebSettingsBase settings = Configuration.GetSection("WebSettings").Get<WebSettingsBase>();
             if (settings == null)
                 throw new Utilities.Exceptions.ProgramException("Null WebSettingsBase configuration object in Startup");
-
-            loggerFactory.AddFile(Configuration.GetSection("Logging")["PathFormat"]);
 
             //use dev page if we are returning detailed errors
             if (settings.ErrorHandlerSettings.ShowErrors)

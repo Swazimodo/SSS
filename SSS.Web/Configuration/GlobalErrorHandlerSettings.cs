@@ -32,6 +32,11 @@ namespace SSS.Web.Configuration
         /// </summary>
         public int? MaxSessionErrors { get; set; }
 
+        /// <summary>
+        /// Captures synchronous and asynchronous System.Exception instances from the pipeline and generates HTML error responses.
+        /// </summary>
+        public bool UseDeveloperExceptionPage { get; set; }
+
         public GlobalErrorHandlerSettings()
         {
             JsonErrorPaths = new List<string>();
