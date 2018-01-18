@@ -21,12 +21,11 @@ namespace SSS.Web.MiddleWare
 
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
-        private readonly IHostingEnvironment _environment;
         private readonly ErrorHandlerOptions _options;
 
         public ErrorHandlerOptions Options { get; set; }
 
-        public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger, IOptions<ErrorHandlerOptions> options, IHostingEnvironment environment)
+        public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger, IOptions<ErrorHandlerOptions> options)
         {
             if (options.Value.WebSettings == null)
                 throw new ArgumentNullException("WebSettings", "Unable to get WebSettings from the ErrorHandlerOptions");
@@ -34,7 +33,6 @@ namespace SSS.Web.MiddleWare
             _next = next;
             _logger = logger;
             _options = options.Value;
-            _environment = environment;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -49,7 +47,7 @@ namespace SSS.Web.MiddleWare
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex, _options, _logger, _environment);
+                await HandleExceptionAsync(httpContext, ex, _options, _logger);
             }
         }
 
@@ -57,7 +55,7 @@ namespace SSS.Web.MiddleWare
         /// API exceptions will return a JSON error message
         /// Page exceptions will redirect to an error page based on the http status code in not Dev environments
         /// </summary>
-        private static Task HandleExceptionAsync(HttpContext httpContext, Exception exception, ErrorHandlerOptions options, ILogger logger, IHostingEnvironment environment)
+        private static Task HandleExceptionAsync(HttpContext httpContext, Exception exception, ErrorHandlerOptions options, ILogger logger)
         {
             //this checks if we should rethrow the error to display in the development exception screen.
             bool throwDevError = false;
@@ -135,25 +133,4 @@ namespace SSS.Web.MiddleWare
             return httpContext.Response.WriteAsync(responseText);
         }
     }
-
-    ///// <summary>
-    ///// Extension method used to add the error handling middleware to the HTTP request pipeline
-    ///// </summary>
-    //public static class ErrorHandlerMiddlewareExtensions
-    //{
-    //    /// <summary>
-    //    /// Insert a global error handler into the pipeline
-    //    /// </summary>
-    //    /// <param name="options">options.WebSettings cannot be null</param>
-    //    /// <returns></returns>
-    //    public static IApplicationBuilder UseErrorHandlerMiddleware(this IApplicationBuilder app, ErrorHandlerOptions options)
-    //    {
-    //        if (app == null)
-    //            throw new ArgumentNullException(nameof(app));
-    //        if (options == null)
-    //            throw new ArgumentNullException(nameof(options));
-
-    //        return app.UseMiddleware<ErrorHandlerMiddleware>(Options.Create(options));
-    //    }
-    //}
 }

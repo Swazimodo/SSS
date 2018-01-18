@@ -16,24 +16,6 @@
             </summary>
             <returns>list of all application roles</returns>
         </member>
-        <member name="P:SSS.Web.Configuration.CSRFPath.Methods">
-            <summary>
-            Specify HttpMethods if you want to filter by them
-            </summary>
-        </member>
-        <member name="P:SSS.Web.Configuration.CSRFPath.StartingRequestPath">
-            <summary>
-            The relative site page to check 
-            </summary>
-            <example>/api/</example>
-        </member>
-        <member name="M:SSS.Web.Configuration.CSRFPath.Validate(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            checks if the current request matches the method and path
-            </summary>
-            <param name="context">Current context to evaluate</param>
-            <returns>true if current request matches this rule</returns>
-        </member>
         <member name="P:SSS.Web.Configuration.ErrorHandlerOptions.LogErrorCallback">
             <summary>
             Here you can add custom logging or error handling
@@ -50,28 +32,6 @@
             Global error handler settings, cannot be null
             </summary>
         </member>
-        <member name="P:SSS.Web.Configuration.GlobalCSRFSettings.Enabled">
-            <summary>
-            True if CSRF checks should be enabled for the site
-            </summary>
-        </member>
-        <member name="P:SSS.Web.Configuration.GlobalCSRFSettings.IncludedEndpoints">
-            <summary>
-            list of site paths that should be covered by the CSRF check
-            </summary>
-        </member>
-        <member name="P:SSS.Web.Configuration.GlobalCSRFSettings.ExcludedEndpoints">
-            <summary>
-            list of site paths that need to be excluded
-            </summary>
-        </member>
-        <member name="M:SSS.Web.Configuration.GlobalCSRFSettings.isCSRFCheckNeeded(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            Checks if the current request needs to have the CSRF token validated
-            </summary>
-            <param name="context">Current context to evaluate</param>
-            <returns>true if the current request needs to be validated</returns>
-        </member>
         <member name="T:SSS.Web.Configuration.GlobalErrorHandlerSettings">
             <summary>
             Config values for enabling ErrorHandlerMiddleware
@@ -79,7 +39,7 @@
         </member>
         <member name="P:SSS.Web.Configuration.GlobalErrorHandlerSettings.ShowErrors">
             <summary>
-            Whether errors are passed back through the API
+            Whether detailed errors are passed back through the API. Only use in non prod environments
             </summary>
         </member>
         <member name="P:SSS.Web.Configuration.GlobalErrorHandlerSettings.ErrorPage">
@@ -200,9 +160,9 @@
             Config values for enabling ErrorHandlerMiddleware
             </summary>
         </member>
-        <member name="P:SSS.Web.Configuration.WebSettingsBase.CSRFSettings">
+        <member name="P:SSS.Web.Configuration.WebSettingsBase.EnableCSRFChecking">
             <summary>
-            Contains all the configuration to enable site CSRF checking middleware
+            Option to enable site CSRF checking should be on in PROD
             </summary>
         </member>
         <member name="M:SSS.Web.Configuration.WebSettingsBase.#ctor">
@@ -236,11 +196,6 @@
         <member name="M:SSS.Web.Extensions.ApplicationBuilderExtensions.UseHttpNoContentOutputMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             sets status code to 404 if a get request returns with no content
-            </summary>
-        </member>
-        <member name="M:SSS.Web.Extensions.ApplicationBuilderExtensions.UseAntiforgeryHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            Insert a global error CSRF checking into the pipeline
             </summary>
         </member>
         <member name="M:SSS.Web.Extensions.ConfigurationExtensions.IsTrue(System.String)">
@@ -280,6 +235,14 @@
             <param name="settings">An SSS.Web.Configuration.WebSettingsBase to configure the provided Microsoft.AspNetCore.Antiforgery.AntiforgeryOptions.</param>
             <returns>The Microsoft.Extensions.DependencyInjection.IServiceCollection so that additional calls can be chained.</returns>
         </member>
+        <member name="M:SSS.Web.Extensions.ServiceCollectionExtensions.AddMvc(Microsoft.Extensions.DependencyInjection.IServiceCollection,SSS.Web.Configuration.WebSettingsBase)">
+            <summary>
+            Configures MVC service based on the configuration from WebSettingsBase
+            </summary>
+            <param name="services"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
         <member name="M:SSS.Web.Extensions.SessionExtensions.GetObject``1(Microsoft.AspNetCore.Http.ISession,System.String)">
             <summary>
             Deserialize object out of the session
@@ -312,7 +275,7 @@
             <param name="context">Current context</param>
             <returns>IP address</returns>
         </member>
-        <member name="M:SSS.Web.MiddleWare.ErrorHandlerMiddleware.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception,SSS.Web.Configuration.ErrorHandlerOptions,Microsoft.Extensions.Logging.ILogger,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+        <member name="M:SSS.Web.MiddleWare.ErrorHandlerMiddleware.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception,SSS.Web.Configuration.ErrorHandlerOptions,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             API exceptions will return a JSON error message
             Page exceptions will redirect to an error page based on the http status code in not Dev environments
