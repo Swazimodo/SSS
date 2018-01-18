@@ -4,6 +4,16 @@
         <name>SSS.Web</name>
     </assembly>
     <members>
+        <member name="F:SSS.Web.ExceptionHandler.ExceptionOutputMethod.JSON">
+            <summary>
+            For AJAX calls to your API you can return a JSON error object
+            </summary>
+        </member>
+        <member name="F:SSS.Web.ExceptionHandler.ExceptionOutputMethod.Redirect">
+            <summary>
+            For failed page renders use this to redirect to a custom error page
+            </summary>
+        </member>
         <member name="T:SSS.Web.Configuration.ApplicationRolesBase">
             <summary>
             This class should be inherited. Add properties for different application roles that have an enumerable list of user groups.

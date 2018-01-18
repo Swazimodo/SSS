@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SSS.WebTest.Models;
+using SSS.Web;
 
 namespace SSS.WebTest.Controllers
 {
     public class HomeController : Controller
     {
+        [ExceptionHandler(ExceptionOutputMethod.Redirect)]
         public IActionResult Index()
         {
             return View();
