@@ -50,7 +50,7 @@ namespace SSS.Web.Extensions
         {
             context.Session.Clear();
             context.Response.Cookies.Append(".AspNetCore.Session", "");
-            context.Response.Cookies.Append(MiddleWare.AntiforgeryHandlerMiddleware.CSRF_COOKIE_NAME, "");
+            context.Response.Cookies.Append("XSRF-TOKEN", "");
         }
 
         /// <summary>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using SSS.Web.Configuration;
 using SSS.Web.MiddleWare;
 
@@ -17,17 +19,30 @@ namespace SSS.Web.Extensions
         /// <returns>The Microsoft.Extensions.DependencyInjection.IServiceCollection so that additional calls can be chained.</returns>
         public static IServiceCollection AddAntiforgery(this IServiceCollection services, WebSettingsBase settings)
         {
-            if (settings.CSRFSettings.Enabled)
+            if (settings.EnableCSRFChecking)
                 services.AddAntiforgery(opts =>
                 {
-                    opts.HeaderName = AntiforgeryHandlerMiddleware.CSRF_HEADER_NAME;
-                    opts.FormFieldName = AntiforgeryHandlerMiddleware.CSRF_FORM_FIELD_NAME;
-                    opts.Cookie.Name = AntiforgeryHandlerMiddleware.CSRF_COOKIE_NAME;
+                    opts.HeaderName = "X-XSRF-TOKEN";
+                    opts.FormFieldName = "XSRF-TOKEN";
+                    opts.Cookie.Name = "XSRF-TOKEN";
 
                     //use same expiration timespan as session
                     opts.Cookie.Expiration = settings.GetSessionExpirationTimeSpan();
                 });
             return services;
+        }
+
+        /// <summary>
+        /// Configures MVC service based on the configuration from WebSettingsBase
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        public static IMvcBuilder AddMvc(this IServiceCollection services, WebSettingsBase settings)
+        {
+            return services.AddMvc(options => 
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())
+            ).AddSerializerSettings(settings);
         }
     }
 }

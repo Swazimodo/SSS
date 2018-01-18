@@ -44,9 +44,9 @@ namespace SSS.Web.Configuration
         public GlobalErrorHandlerSettings ErrorHandlerSettings { get; set; }
 
         /// <summary>
-        /// Contains all the configuration to enable site CSRF checking middleware
+        /// Option to enable site CSRF checking should be on in PROD
         /// </summary>
-        public GlobalCSRFSettings CSRFSettings { get; set; }
+        public bool EnableCSRFChecking { get; set; }
 
         /// <summary>
         /// creates a settings object with default values
@@ -59,6 +59,7 @@ namespace SSS.Web.Configuration
             DateFormat = "yyyy-MM-dd";
             IdleTimeout = 24; //time in minutes
             SessionExpiration = "12:00:00"; //dd.hh:mm:ss
+            EnableCSRFChecking = true;
 
             ErrorHandlerSettings = new GlobalErrorHandlerSettings() {
                 ShowErrors = true,
@@ -66,9 +67,6 @@ namespace SSS.Web.Configuration
             };
             StoredProcSettings = new StoredProcSettings() {
                 LogDBMessages = true
-            };
-            CSRFSettings = new GlobalCSRFSettings() {
-                Enabled = false
             };
         }
 

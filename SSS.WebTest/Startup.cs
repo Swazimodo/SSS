@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -35,8 +37,8 @@ namespace SSS.WebTest
 
             //services.Configure<ApplicationRoles>(options => Configuration.GetSection("Roles").Bind(options));
 
-            services.AddMvc()
-                .AddSerializerSettings(settings);
+            //configures global antiforgery and date JSON Serializer Settings
+            services.AddMvc(settings);
 
             // enable session and specify timeout and max length settings
             services.AddDistributedMemoryCache();
@@ -128,10 +130,6 @@ namespace SSS.WebTest
 
             //converts 204 to 404 on get requests
             app.UseHttpNoContentOutputMiddleware();
-
-            //apply CSRF checking globally across the API
-            if (settings.CSRFSettings.Enabled)
-                app.UseAntiforgeryHandlerMiddleware();
 
             //custom error handler
             app.UseErrorHandlerMiddleware(new ErrorHandlerOptions()

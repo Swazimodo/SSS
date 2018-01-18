@@ -35,13 +35,5 @@ namespace SSS.Web.Extensions
         {
             return builder.UseMiddleware<HttpNoContentOutputMiddleware>();
         }
-
-        /// <summary>
-        /// Insert a global error CSRF checking into the pipeline
-        /// </summary>
-        public static IApplicationBuilder UseAntiforgeryHandlerMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<AntiforgeryHandlerMiddleware>();
-        }
     }
 }
