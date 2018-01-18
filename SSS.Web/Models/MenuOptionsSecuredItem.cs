@@ -1,5 +1,4 @@
-﻿using SSS.Utilities.Exceptions;
-using SSS.Utilities.Interfaces;
+﻿using SSS.Utilities;
 
 namespace SSS.Web.Models
 {

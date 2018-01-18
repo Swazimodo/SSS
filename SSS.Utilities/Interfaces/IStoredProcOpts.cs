@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SSS.Utilities.Interfaces
+namespace SSS.Utilities
 {
     public interface IStoredProcOpts
     {

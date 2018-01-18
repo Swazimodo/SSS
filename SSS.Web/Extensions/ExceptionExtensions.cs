@@ -2,8 +2,7 @@
 using System.Net;
 
 using SSS.Web.Models;
-using SSS.Utilities.Enums;
-using SSS.Utilities.Exceptions;
+using SSS.Utilities;
 
 namespace SSS.Web.Extensions
 {

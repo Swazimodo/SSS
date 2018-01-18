@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSS.Utilities.Interfaces
+namespace SSS.Utilities
 {
     /// <summary>
     /// interface to allow a paging control

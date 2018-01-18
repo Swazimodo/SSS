@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SSS.Utilities.Enums
+namespace SSS.Utilities
 {
     /// <summary>
     /// What type of standard action should a user take when an issue is encountered

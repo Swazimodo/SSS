@@ -98,7 +98,7 @@ namespace SSS.Web.Models
         {
             MenuOptionsItem<T> defaultItem = _items.FirstOrDefault(x => x == key);
             if (defaultItem == null)
-                throw new SSS.Utilities.Exceptions.ProgramException("The key value of default did not exist in the current result set");
+                throw new Utilities.ProgramException("The key value of default did not exist in the current result set");
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace SSS.Web.Models
         {
             MenuOptionsItem<T> defaultItem = _items.FirstOrDefault(x => Equals(x, key));
             if (defaultItem == null)
-                throw new SSS.Utilities.Exceptions.ProgramException("The key value of default did not exist in the current result set");
+                throw new Utilities.ProgramException("The key value of default did not exist in the current result set");
         }
     }
 

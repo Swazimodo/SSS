@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSS.Utilities.Exceptions
+namespace SSS.Utilities
 {
     public class ValidationException : BaseException
     {

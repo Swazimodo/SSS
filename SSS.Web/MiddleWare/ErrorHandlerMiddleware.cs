@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using SSS.Utilities.Exceptions;
+using SSS.Utilities;
 using SSS.Web.Configuration;
 using SSS.Web.Extensions;
 using SSS.Web.Models;

@@ -1,5 +1,5 @@
 ﻿using System;
-using SSS.Utilities.Interfaces;
+using SSS.Utilities;
 
 namespace SSS.Web.Configuration
 {

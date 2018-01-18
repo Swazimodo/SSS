@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-using SSS.Utilities.Interfaces;
+using SSS.Utilities;
 using SSS.Web.Security;
 
 namespace SSS.Web.Configuration

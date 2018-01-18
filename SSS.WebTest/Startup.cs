@@ -33,7 +33,7 @@ namespace SSS.WebTest
             services.Configure<WebSettingsBase>(options => Configuration.GetSection("WebSettings").Bind(options));
             WebSettingsBase settings = Configuration.GetSection("WebSettings").Get<WebSettingsBase>();
             if (settings == null)
-                throw new Utilities.Exceptions.ProgramException("Null settings object in Startup");
+                throw new Utilities.ProgramException("Null settings object in Startup");
 
             //services.Configure<ApplicationRoles>(options => Configuration.GetSection("Roles").Bind(options));
 
@@ -85,7 +85,7 @@ namespace SSS.WebTest
             //    }
             //});
 
-            services.AddTransient<Utilities.Interfaces.ITemplateService, Web.Services.TemplateService>();
+            services.AddTransient<Utilities.ITemplateService, Web.Services.TemplateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,7 +95,7 @@ namespace SSS.WebTest
 
             WebSettingsBase settings = Configuration.GetSection("WebSettings").Get<WebSettingsBase>();
             if (settings == null)
-                throw new Utilities.Exceptions.ProgramException("Null WebSettingsBase configuration object in Startup");
+                throw new Utilities.ProgramException("Null WebSettingsBase configuration object in Startup");
 
             //use dev page if we are returning detailed errors
             if (settings.ErrorHandlerSettings.ShowErrors)

@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-using SSS.Utilities.Exceptions;
+using SSS.Utilities;
 
 namespace SSS.Web.Extensions
 {

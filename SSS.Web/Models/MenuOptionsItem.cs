@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-using SSS.Utilities.Interfaces;
+using SSS.Utilities;
 
 namespace SSS.Web.Models
 {

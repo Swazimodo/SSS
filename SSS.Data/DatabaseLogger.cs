@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
-using SSS.Utilities.Exceptions;
+using SSS.Utilities;
 
 namespace SSS.Data
 {

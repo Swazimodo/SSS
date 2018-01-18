@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace SSS.Utilities.Interfaces
+namespace SSS.Utilities
 {
     /// <summary>
     /// Renders html content based on razor templates

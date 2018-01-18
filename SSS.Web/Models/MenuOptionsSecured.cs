@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using SSS.Utilities.Exceptions;
+using SSS.Utilities;
 
 namespace SSS.Web.Models
 {

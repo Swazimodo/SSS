@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SSS.Utilities.Interfaces
+namespace SSS.Utilities
 {
     /// <summary>
     /// Adds permission properties to allow a view to dynamically render a page
