@@ -23,8 +23,6 @@ namespace SSS.Web.MiddleWare
         private readonly ILogger _logger;
         private readonly ErrorHandlerOptions _options;
 
-        public ErrorHandlerOptions Options { get; set; }
-
         public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger, IOptions<ErrorHandlerOptions> options)
         {
             if (options.Value.WebSettings == null)
