@@ -42,11 +42,7 @@ namespace SSS.WebTest
 
             // enable session and specify timeout and max length settings
             services.AddDistributedMemoryCache();
-            services.AddSession(c =>
-            {
-                c.Cookie.Expiration = settings.GetSessionExpirationTimeSpan();
-                c.IdleTimeout = TimeSpan.FromMinutes(settings.IdleTimeout);
-            });
+            services.AddSession(settings);
 
             //add CSRF checking
             services.AddAntiforgery(settings);
